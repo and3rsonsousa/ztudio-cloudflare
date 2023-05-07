@@ -430,6 +430,12 @@ export const handleAction = async (
     } else if (action === "update-delay") {
       values = { date: formData.get("date") as string, updated_at: "NOW()" };
       table = "Action";
+    } else if (action === "update-action-name") {
+      values = {
+        name: formData.get("name") as string,
+        updated_at: "NOW()",
+      };
+      table = "Action";
     } else if (action === "update-action-stage") {
       values = {
         stage: formData.get("stage") as string,
