@@ -65,7 +65,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
 
   return edit ? (
     <div
-      className={`mx-1 flex items-center overflow-hidden whitespace-nowrap rounded-md bg-gray-800 px-2  py-1 text-xs font-semibold text-white ring-2 ring-brand ring-offset-0`}
+      className={`mx-1 mt-1 flex items-center overflow-hidden whitespace-nowrap rounded-md bg-gray-800 px-2  py-1 text-xs font-semibold text-white ring-2 ring-brand ring-offset-0`}
       contentEditable={true}
       ref={nameRef}
       onBlur={(event) => {
@@ -79,7 +79,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
             {
               action: "update-action-name",
               id: action.id,
-              name,
+              name: event.currentTarget.textContent,
             },
             {
               method: "post",

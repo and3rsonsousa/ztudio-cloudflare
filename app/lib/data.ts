@@ -435,6 +435,7 @@ export const handleAction = async (
         name: formData.get("name") as string,
         updated_at: "NOW()",
       };
+
       table = "Action";
     } else if (action === "update-action-stage") {
       values = {
