@@ -51,7 +51,6 @@ dayjs.extend(relativeTime);
 export const ActionLine = ({ action }: { action: ActionModel }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
   const [edit, setEdit] = useState(false);
-  const [name, setName] = useState(action.name);
   const { slug } = useParams();
   const fetcher = useFetcher();
   const updating = fetcher.state !== "idle";
@@ -71,10 +70,8 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
       onBlur={(event) => {
         if (
           event.currentTarget.textContent &&
-          event.currentTarget.textContent.length > 3 &&
-          event.currentTarget.textContent !== name
+          event.currentTarget.textContent.length > 3
         ) {
-          setName(event.currentTarget.textContent);
           fetcher.submit(
             {
               action: "update-action-name",
@@ -90,7 +87,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
         setEdit(false);
       }}
     >
-      {name}
+      {action.name}
     </div>
   ) : (
     <ContextMenu.Root onOpenChange={setShowContextMenu}>
@@ -150,7 +147,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
               />
             }
             {/* Name */}
-            <div className="action-line__name">{name}</div>
+            <div className="action-line__name">{action.name}</div>
             {/* Account Short */}
             {!slug && (
               <div className="action-line__short">{action.account.short}</div>
