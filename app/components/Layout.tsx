@@ -231,7 +231,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </Link>
             {person.admin && (
               <div className="ml-2 font-mono text-xx font-bold opacity-30">
-                v2357.1548
+                version 2357.1813
               </div>
             )}
           </div>

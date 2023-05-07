@@ -130,7 +130,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
           onClick={() => {
             setEdit(true);
           }}
-          title={`${name} - ${action.account.name}`}
+          title={`${action.name} - ${action.account.name}`}
         >
           <IsLate action={action} />
           {updating ? (
