@@ -368,6 +368,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                           onSelect={() => context.shortcut.set(true)}
                         >
                           Ajuda
+                          {person.admin && (
+                            <div className="ml-2 font-mono text-xx">
+                              v2357.1547
+                            </div>
+                          )}
                         </DropdownMenu.Item>
                         {/* Sair */}
                         <DropdownMenu.Item
