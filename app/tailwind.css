@@ -1,0 +1,464 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: Inter var;
+  font-weight: 100 900;
+  font-display: block;
+  font-style: normal;
+  font-named-instance: "Regular";
+  src: url(/inter.woff2) format("woff2");
+}
+
+* {
+  @apply outline-none;
+}
+
+body {
+  @apply bg-gray-950 font-sans font-light text-gray-300 antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+@layer base {
+  .link {
+    @apply font-semibold tracking-wide underline;
+  }
+
+  h1 {
+    @apply mb-8 text-5xl font-bold tracking-tight;
+  }
+
+  h2 {
+    @apply mb-4 text-3xl font-bold tracking-tight;
+  }
+
+  h3 {
+    @apply mb-4 text-2xl font-bold tracking-tight;
+  }
+
+  h4 {
+    @apply mb-2 text-xl font-semibold;
+  }
+
+  h5 {
+    @apply font-semibold uppercase tracking-wide;
+  }
+}
+
+@layer utilities {
+  .spacing-sm {
+    @apply px-4 py-1.5;
+  }
+
+  .spacing {
+    @apply px-6 py-3;
+  }
+
+  .spacing-lg {
+    @apply px-8 py-5;
+  }
+
+  .shadow-color {
+    @apply shadow-2xl shadow-gray-500/25;
+  }
+  .shadow-color-dark {
+    @apply shadow-2xl shadow-gray-950/75;
+  }
+
+  .sq-3 {
+    @apply h-3 w-3;
+  }
+  .sq-4 {
+    @apply h-4 w-4;
+  }
+}
+
+@layer components {
+  .button {
+    @apply inline-flex touch-none select-none appearance-none items-center justify-center gap-2 rounded-full px-6  py-3 font-semibold  outline-none;
+    @apply bg-gray-700 text-gray-300;
+    @apply hover:bg-gray-600;
+    @apply active:bg-gray-300;
+    /* botão desabilitado */
+    @apply disabled:cursor-not-allowed disabled:bg-gray-900 disabled:text-gray-600 disabled:hover:bg-gray-100 disabled:active:bg-gray-100;
+    @apply ring-brand ring-offset-white focus:ring-2;
+  }
+
+  .button-primary {
+    @apply bg-brand text-white ring-offset-2 ring-offset-gray-950 hover:bg-brand-700 active:bg-brand-900;
+    @apply bg-brand text-white hover:bg-brand-700 active:bg-brand-900;
+    @apply disabled:bg-brand-900 disabled:text-brand disabled:hover:bg-brand-900 disabled:active:bg-brand-900;
+  }
+
+  .button-small {
+    @apply spacing-sm text-sm font-medium;
+  }
+
+  .button-large {
+    @apply spacing-lg text-xl;
+  }
+
+  .button-link {
+    @apply bg-transparent hover:bg-gray-800;
+  }
+
+  .button svg {
+    @apply w-4;
+  }
+
+  .button-squared {
+    /* @apply p-3; */
+    @apply h-12 w-12 p-0;
+  }
+
+  .button-squared.button-small {
+    /* @apply p-1.5 */
+    @apply h-8 w-8 p-0;
+  }
+  .button-squared.button-large {
+    /* @apply p-5 */
+    @apply h-16 w-16 p-0;
+  }
+
+  .button-icon svg {
+    @apply w-5;
+  }
+  .button-icon.button-small svg {
+    @apply w-4;
+  }
+  .button-icon.button-large svg {
+    @apply w-6;
+  }
+
+  .field {
+    @apply mb-4 block w-full font-normal;
+  }
+
+  .field-label {
+    @apply mb-2 block font-semibold;
+  }
+
+  .field-input {
+    @apply rounded-xl bg-gray-800 ring-brand focus-within:ring-2;
+  }
+  .field-default {
+    @apply spacing w-full rounded-xl bg-gray-800 ring-brand  placeholder:text-gray-600 focus-within:ring-2;
+    @apply disabled:text-gray-600;
+  }
+  .field-default.field-small {
+  }
+  .field-default.field-link {
+    @apply spacing w-full rounded-xl bg-transparent ring-brand  placeholder:text-gray-600 focus-within:ring-2;
+    @apply disabled:text-gray-600;
+  }
+
+  .select-field button span {
+    @apply block overflow-hidden text-ellipsis whitespace-nowrap;
+  }
+
+  .field-checkbox {
+    @apply relative flex items-center gap-4;
+  }
+  .field-checkbox .field-label {
+    @apply m-0;
+  }
+  .field-checkbox input {
+    @apply absolute opacity-0;
+  }
+  .field-checkbox .checkbox {
+    @apply h-4 w-4 rounded border border-transparent bg-gray-600;
+  }
+  .field-checkbox .checkbox svg {
+    @apply -mt-1 scale-50 text-white opacity-0 transition;
+  }
+
+  .field-checkbox input:checked ~ .checkbox {
+    @apply relative bg-brand;
+  }
+  .field-checkbox input:checked ~ .checkbox svg {
+    @apply scale-100 opacity-100;
+  }
+
+  .field-checkbox input:focus ~ .checkbox {
+    @apply border-brand ring-2 ring-brand  ring-offset-2 ring-offset-gray-950;
+  }
+
+  .dropdown-content {
+    @apply shadow-color shadow-color-dark z-50 rounded-xl border border-black/10 bg-gray-700/25 py-2 backdrop-blur-xl;
+  }
+
+  .dropdown-label {
+    @apply spacing-sm text-xx font-semibold uppercase text-gray-400  antialiased;
+  }
+
+  .dropdown-item {
+    @apply spacing flex cursor-pointer items-center justify-between gap-2 font-normal text-white antialiased focus:bg-brand focus:outline-none;
+  }
+
+  .dropdown-item.item-small {
+    @apply spacing-sm text-xs;
+  }
+
+  .dropdown-item a {
+    @apply block;
+  }
+
+  .dropdown-hr {
+    @apply my-2 border-gray-500/10;
+  }
+}
+
+.calendar-weekday {
+  @apply px-2 py-4 text-xs font-semibold tracking-wide;
+}
+
+.calendar-day {
+  @apply rounded-lg py-2 text-center lg:text-left;
+}
+.calendar-day.not-this-month .day-button {
+  @apply text-gray-700;
+}
+
+.calendar-day .day-button {
+  @apply h-8 w-8  lg:h-6 lg:w-6 lg:text-xs;
+}
+
+.calendar-day.is-today .day-button {
+  @apply font-semibold text-brand;
+}
+.calendar-day.is-selected .day-button {
+  @apply bg-brand font-semibold text-white;
+}
+
+.dialog {
+  @apply fixed left-1/2 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2;
+}
+.dialog-toast {
+  @apply fixed left-1/2 top-0 z-[60] -translate-x-1/2;
+}
+
+.dialog-overlay {
+  @apply fixed inset-0 z-50 bg-gray-700/50 backdrop-blur-lg;
+}
+
+.dialog-content {
+  @apply z-50  rounded-xl bg-gray-950 text-gray-200 shadow-xl focus:outline-none;
+}
+
+.bg-feed {
+  @apply bg-feed-600 text-white;
+}
+.bg-feed-hover {
+  @apply hover:bg-feed-700;
+}
+
+.bg-reels {
+  @apply bg-reels-600 text-white;
+}
+.bg-reels-hover {
+  @apply hover:bg-reels-700;
+}
+
+.bg-task {
+  @apply bg-task-500 text-white;
+}
+.bg-task-hover {
+  @apply hover:bg-task-600;
+}
+
+.bg-stories {
+  @apply bg-stories-500 text-white;
+}
+.bg-stories-hover {
+  @apply hover:bg-stories-600;
+}
+
+.bg-meeting {
+  @apply bg-meeting-600 text-white;
+}
+.bg-meeting-hover {
+  @apply hover:bg-meeting-700;
+}
+
+.bg-print {
+  @apply bg-print-600  text-white;
+}
+.bg-print-hover {
+  @apply hover:bg-print-700;
+}
+
+.bg-tiktok {
+  @apply bg-tiktok-600 text-white;
+}
+.bg-tiktok-hover {
+  @apply hover:bg-tiktok-700;
+}
+
+.bg-financial {
+  @apply bg-financial-600 text-white;
+}
+.bg-financial-hover {
+  @apply hover:bg-financial-700;
+}
+
+.bg-webdev {
+  @apply bg-webdev-600 text-white;
+}
+.bg-webdev-hover {
+  @apply hover:bg-webdev-700;
+}
+
+.bg-ads {
+  @apply bg-ads-600 text-white;
+}
+.bg-ads-hover {
+  @apply hover:bg-ads-700;
+}
+
+/* Stage */
+
+.bg-idea {
+  @apply bg-idea-500 text-white;
+}
+.bg-idea-hover {
+  @apply hover:bg-idea-600;
+}
+.border-idea {
+  @apply border-idea-500;
+}
+
+.bg-do {
+  @apply bg-do-500 text-white;
+}
+.bg-do-hover {
+  @apply hover:bg-do-600;
+}
+.border-do {
+  @apply border-do-400;
+}
+
+.bg-doing {
+  @apply bg-doing-600 text-white;
+}
+.bg-doing-hover {
+  @apply hover:bg-doing-700;
+}
+.border-doing {
+  @apply border-doing-500;
+}
+
+.bg-review {
+  @apply bg-review-500 text-white;
+}
+.bg-review-hover {
+  @apply hover:bg-review-600;
+}
+.border-review {
+  @apply border-review-500;
+}
+
+.bg-done {
+  @apply bg-done-500 text-white;
+}
+.bg-done-hover {
+  @apply hover:bg-done-600;
+}
+.border-done {
+  @apply border-done-500;
+}
+
+.bg-accomplished {
+  @apply bg-accomplished-600 text-white;
+}
+.bg-accomplished-hover {
+  @apply hover:bg-accomplished-700;
+}
+.border-accomplished {
+  @apply border-accomplished-500;
+}
+
+.exclamation {
+  @apply inline-flex items-center gap-4 rounded-xl px-5 py-3 text-sm font-normal leading-tight;
+}
+.exclamation.large {
+  @apply gap-6 rounded-2xl px-8 py-6 text-2xl;
+}
+.exclamation.small {
+  @apply gap-3 rounded-lg px-3 py-2 text-xs;
+}
+
+.exclamation-icon {
+  @apply w-12;
+}
+
+.exclamation.large .exclamation-icon {
+  @apply w-16;
+}
+
+.exclamation.small .exclamation-icon {
+  @apply w-8;
+}
+
+.bg-info {
+  @apply bg-info-900 text-info-200;
+}
+.bg-alert {
+  @apply bg-alert-900 text-alert-200;
+}
+.bg-error {
+  @apply bg-error-900 text-error-200;
+}
+.bg-success {
+  @apply bg-success-700 text-success-200;
+}
+
+.action-line {
+  @apply relative mx-1 mt-1 flex cursor-pointer items-center justify-between gap-2 rounded-md px-2 py-1 ring-brand ring-offset-2 ring-offset-gray-950  transition focus-within:ring-2;
+}
+.action-line__left {
+  @apply flex w-full items-center gap-1 overflow-hidden;
+}
+
+.action-line__name {
+  @apply hidden w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs font-normal sm:block;
+}
+
+.action-line__name_mobile {
+  @apply w-full overflow-hidden text-ellipsis whitespace-nowrap text-xs font-medium uppercase sm:hidden;
+}
+.action-line__short {
+  @apply hidden w-4 shrink-0 grow-0 break-all text-center text-[8px] font-medium uppercase leading-none tracking-wider opacity-60 @[120px]:block;
+}
+
+.action-line__right {
+  @apply hidden w-10 overflow-hidden text-center text-xx font-medium opacity-60 @[135px]:block;
+}
+
+.action-line-new {
+  @apply relative mx-1 mt-1 flex cursor-pointer items-center justify-between gap-2 rounded border-l-4  bg-gray-800 px-2 py-1 ring-brand ring-offset-2 ring-offset-gray-950 transition focus-within:ring-2 hover:text-white;
+}
+
+.action-medium {
+  @apply relative mb-2 space-y-2 rounded-xl  bg-gray-800  p-4 text-gray-100  ring-brand ring-offset-2 ring-offset-gray-950  transition hover:bg-gray-700 focus:ring-2;
+}
+
+.action-medium.accomplished {
+  @apply opacity-50 hover:opacity-100;
+}
+
+.dragging {
+  @apply scale-90 opacity-50;
+}
+
+.dragover {
+  @apply bg-brand-100 bg-brand-900/50 ring-1 ring-inset ring-brand;
+}
+
+.dropped {
+  @apply bg-error-50;
+}
+
+.busy {
+  @apply scale-90 opacity-25;
+}
