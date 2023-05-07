@@ -4,11 +4,6 @@ export default function Loader({
   size?: "small" | "normal" | "large";
 }) {
   return (
-    // <ArrowPathIcon
-    //   className={`${
-    //     size ? (size === "small" ? "w-6" : "w-8") : "w-4"
-    //   } animate-spin`}
-    // />
     <div
       className={`${
         size

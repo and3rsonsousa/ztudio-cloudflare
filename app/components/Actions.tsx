@@ -6,7 +6,6 @@ import {
   Link,
   useFetcher,
   useMatches,
-  useNavigate,
   useOutletContext,
   useParams,
 } from "@remix-run/react";
@@ -19,6 +18,7 @@ import {
   Copy,
   DollarSign,
   Edit,
+  Edit3,
   FilePlus2,
   Heart,
   HelpCircle,
@@ -33,7 +33,7 @@ import {
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { AnimatePresence, motion } from "framer-motion";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fade } from "~/lib/animations";
 import type {
   AccountModel,
@@ -44,20 +44,55 @@ import type {
 import Button from "./Button";
 import Exclamation from "./Exclamation";
 import type { SupportType } from "./InstagramGrid";
+import Loader from "./Loader";
 
 dayjs.extend(relativeTime);
 
 export const ActionLine = ({ action }: { action: ActionModel }) => {
   const [showContextMenu, setShowContextMenu] = useState(false);
-  const matches = useMatches();
-  const url = matches[1].data.url;
+  const [edit, setEdit] = useState(false);
+  const [name, setName] = useState(action.name);
   const { slug } = useParams();
-
   const fetcher = useFetcher();
+  const updating = fetcher.state !== "idle";
+  const nameRef = useRef<HTMLInputElement>(null);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    setTimeout(() => {
+      nameRef.current?.focus();
+    }, 0);
+  }, [edit]);
 
-  return (
+  return edit ? (
+    <div
+      className={`mx-1 flex items-center overflow-hidden whitespace-nowrap rounded-md bg-gray-800 px-2  py-1 text-xs font-semibold text-white ring-2 ring-brand ring-offset-0`}
+      contentEditable={true}
+      ref={nameRef}
+      onBlur={(event) => {
+        if (
+          event.currentTarget.textContent &&
+          event.currentTarget.textContent.length > 3 &&
+          event.currentTarget.textContent !== name
+        ) {
+          setName(event.currentTarget.textContent);
+          fetcher.submit(
+            {
+              action: "update-action-name",
+              id: action.id,
+              name,
+            },
+            {
+              method: "post",
+              action: "/handle-action",
+            }
+          );
+        }
+        setEdit(false);
+      }}
+    >
+      {name}
+    </div>
+  ) : (
     <ContextMenu.Root onOpenChange={setShowContextMenu}>
       <ContextMenu.Trigger>
         <div
@@ -76,7 +111,6 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
             ghost.style.position = "absolute";
             ghost.style.top = "0px";
             ghost.style.left = "0px";
-            // ghost.style.offset = ".2";
             ghost.style.zIndex = "-1";
             ghost.style.pointerEvents = "none";
 
@@ -95,15 +129,18 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
             let ele = e.target as HTMLElement;
             ele.classList.remove("dragging");
           }}
-          className={`action-line bg-${action.stage.slug} bg-${action.stage.slug}-hover  @container`}
+          className={`action-line bg-${action.stage.slug} bg-${action.stage.slug}-hover @container`}
           onClick={() => {
-            navigate(
-              `/dashboard/${action.account.slug}/action/${action.id}?redirectTo=${url}`
-            );
+            setEdit(true);
           }}
-          title={`${action.name} - ${action.account.name}`}
+          title={`${name} - ${action.account.name}`}
         >
           <IsLate action={action} />
+          {updating ? (
+            <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+              <Loader size="small" />
+            </div>
+          ) : null}
           <div className="action-line__left">
             {/* Icon For Tags */}
             {
@@ -113,7 +150,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
               />
             }
             {/* Name */}
-            <div className="action-line__name">{action.name}</div>
+            <div className="action-line__name">{name}</div>
             {/* Account Short */}
             {!slug && (
               <div className="action-line__short">{action.account.short}</div>
@@ -168,6 +205,18 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
                     <hr className="dropdown-hr" />
                   </>
                 )}
+
+                <ContextMenu.Item
+                  onSelect={() => {
+                    setEdit(true);
+                  }}
+                  className="dropdown-item item-small "
+                  textValue="Name"
+                >
+                  <Edit3 className="sq-4 shrink-0" />
+                  <div>Editar Nome</div>
+                  <div className="sq-4 text-center">N</div>
+                </ContextMenu.Item>
 
                 <ContextMenuItems action={action} fetcher={fetcher} />
               </motion.div>
