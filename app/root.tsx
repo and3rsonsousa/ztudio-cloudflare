@@ -170,10 +170,10 @@ export function ErrorBoundary() {
         </head>
         <body>
           <div className="grid min-h-screen place-content-center">
-            <div>
+            <div className="max-w-lg">
               <h1 className="mb-0 text-error-600">Error</h1>
               <p className="mb-8 text-2xl font-light">{error.message}</p>
-              <pre>{error.stack}</pre>
+              <pre className="whitespace-pre-wrap">{error.stack}</pre>
             </div>
           </div>
         </body>

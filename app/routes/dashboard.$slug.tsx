@@ -18,8 +18,8 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   ];
 };
 
-export const loader: LoaderFunction = async ({ request, params }) => {
-  const { data: account } = await getAccount(request, params.slug);
+export const loader: LoaderFunction = async ({ request, params, context }) => {
+  const { data: account } = await getAccount(request, context, params.slug);
 
   return { account };
 };

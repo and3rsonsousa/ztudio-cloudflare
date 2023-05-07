@@ -142,6 +142,7 @@ body {
   .field-input {
     @apply rounded-xl bg-gray-800 ring-brand focus-within:ring-2;
   }
+
   .field-default {
     @apply spacing w-full rounded-xl bg-gray-800 ring-brand  placeholder:text-gray-600 focus-within:ring-2;
     @apply disabled:text-gray-600;
