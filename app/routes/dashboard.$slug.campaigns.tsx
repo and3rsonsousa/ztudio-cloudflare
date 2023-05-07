@@ -7,8 +7,12 @@ import Exclamation from "~/components/Exclamation";
 import { getCampaigns } from "~/lib/data";
 import type { CampaignModel, ContextType } from "~/lib/models";
 
-export const loader: LoaderFunction = async ({ request, params }) => {
-  const { data, error } = await getCampaigns({ request, account: params.slug });
+export const loader: LoaderFunction = async ({ request, context, params }) => {
+  const { data, error } = await getCampaigns(
+    request,
+    context,
+    params.slug as string
+  );
   return { campaigns: data, error };
 };
 

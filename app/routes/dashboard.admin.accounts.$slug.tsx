@@ -8,18 +8,18 @@ import InputField from "~/components/Forms/InputField";
 import { getAccount, getPersons, handleAction } from "~/lib/data";
 import type { AccountModel, PersonModel } from "~/lib/models";
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader: LoaderFunction = async ({ request, params, context }) => {
   const [{ data: account }, { data: persons }] = await Promise.all([
-    getAccount(request, params.slug),
-    getPersons(request),
+    getAccount(request, context, params.slug),
+    getPersons(request, context),
   ]);
 
   return { account, persons };
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, context }) => {
   const formData = await request.formData();
-  const { data, error } = await handleAction(formData, request);
+  const { data, error } = await handleAction(formData, request, context);
 
   if (formData.get("redirectTo")) {
     return redirect(formData.get("redirectTo") as string);

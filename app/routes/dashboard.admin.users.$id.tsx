@@ -6,16 +6,20 @@ import InputField from "~/components/Forms/InputField";
 import { getPerson, handleAction } from "~/lib/data";
 import type { PersonModel } from "~/lib/models";
 
-export const loader: LoaderFunction = async ({ request, params }) => {
-  const { data: person } = await getPerson(params.id as string, request);
+export const loader: LoaderFunction = async ({ request, context, params }) => {
+  const { data: person } = await getPerson(
+    params.id as string,
+    request,
+    context
+  );
 
   return { person };
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, context }) => {
   const formData = await request.formData();
 
-  const { data, error } = await handleAction(formData, request);
+  const { data, error } = await handleAction(formData, request, context);
 
   return { data, error };
 };

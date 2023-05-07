@@ -20,10 +20,11 @@ import { FilePlus2 } from "lucide-react";
 
 export const action: ActionFunction = async ({
   request,
+  context,
   params,
 }: ActionArgs) => {
   const formData = await request.formData();
-  const { error } = await handleAction(formData, request);
+  const { error } = await handleAction(formData, request, context);
   const redirectTo = new URL(request.url).searchParams.get("redirectTo");
 
   if (!error) {
@@ -33,9 +34,14 @@ export const action: ActionFunction = async ({
 
 export const loader: LoaderFunction = async ({
   request,
+  context,
   params,
 }: LoaderArgs) => {
-  const { data, error } = await getCampaign(request, params.id as string);
+  const { data, error } = await getCampaign(
+    request,
+    context,
+    params.id as string
+  );
   return { campaign: data, error };
 };
 

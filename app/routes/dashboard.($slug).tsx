@@ -22,10 +22,10 @@ export const meta: V2_MetaFunction = ({ data, matches }) => {
     : match["meta"];
 };
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader: LoaderFunction = async ({ request, context, params }) => {
   const { slug } = params;
   if (slug) {
-    const { data: account } = await getAccount(request, slug);
+    const { data: account } = await getAccount(request, context, slug);
     return { account };
   }
   return {};
