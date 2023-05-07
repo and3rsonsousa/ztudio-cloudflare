@@ -369,7 +369,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                         >
                           Ajuda
                           {person.admin && (
-                            <div className="ml-2 font-mono text-xx">
+                            <div className="ml-2 font-mono text-xx font-bold opacity-30">
                               v2357.1547
                             </div>
                           )}
