@@ -178,32 +178,29 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
                 className="dropdown-content min-w-[9rem]"
                 {...fade(0.2)}
               >
+                {/* Caso o item não esteja concluído, exibe a opção de concluir mais rápido */}
                 {action.stage.id !== "a448e17d-05ba-4ad0-9990-773f9384d15e" && (
-                  <>
-                    {/* Caso o item não esteja concluído, exibe a opção de concluir mais rápido */}
-                    <ContextMenu.Item
-                      onSelect={(event: Event) => {
-                        fetcher.submit(
-                          {
-                            action: "update-action-stage",
-                            id: action.id,
-                            stage: "a448e17d-05ba-4ad0-9990-773f9384d15e",
-                          },
-                          {
-                            method: "post",
-                            action: "/handle-action",
-                          }
-                        );
-                      }}
-                      className="dropdown-item item-small"
-                    >
-                      <div
-                        className={`bg-accomplished mx-1 h-2 w-2 rounded-full`}
-                      ></div>
-                      <div className="flex-shrink-0 flex-grow">Concluído</div>
-                    </ContextMenu.Item>
-                    <hr className="dropdown-hr" />
-                  </>
+                  <ContextMenu.Item
+                    onSelect={(event: Event) => {
+                      fetcher.submit(
+                        {
+                          action: "update-action-stage",
+                          id: action.id,
+                          stage: "a448e17d-05ba-4ad0-9990-773f9384d15e",
+                        },
+                        {
+                          method: "post",
+                          action: "/handle-action",
+                        }
+                      );
+                    }}
+                    className="dropdown-item item-small"
+                  >
+                    <div
+                      className={`bg-accomplished mx-1 h-2 w-2 rounded-full`}
+                    ></div>
+                    <div className="flex-shrink-0 flex-grow">Concluído</div>
+                  </ContextMenu.Item>
                 )}
 
                 <ContextMenu.Item
@@ -217,6 +214,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
                   <div>Editar Nome</div>
                   <div className="sq-4 text-center">N</div>
                 </ContextMenu.Item>
+                <hr className="dropdown-hr" />
 
                 <ContextMenuItems action={action} fetcher={fetcher} />
               </motion.div>
