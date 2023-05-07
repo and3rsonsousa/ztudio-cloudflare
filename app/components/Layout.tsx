@@ -229,6 +229,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <img src="/ico.png" className="mx-auto h-6" alt="ZTUDIO" />
               )}
             </Link>
+            {person.admin && (
+              <div className="ml-2 font-mono text-xx font-bold opacity-30">
+                v2357.1548
+              </div>
+            )}
           </div>
           {/* Clientes large view */}
           <div className="hidden space-y-1 p-2 lg:block">
@@ -368,11 +373,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                           onSelect={() => context.shortcut.set(true)}
                         >
                           Ajuda
-                          {person.admin && (
-                            <div className="ml-2 font-mono text-xx font-bold opacity-30">
-                              v2357.1547
-                            </div>
-                          )}
                         </DropdownMenu.Item>
                         {/* Sair */}
                         <DropdownMenu.Item
