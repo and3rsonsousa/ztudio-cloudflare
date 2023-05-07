@@ -9,10 +9,12 @@ dayjs.locale("pt-br");
 
 export const loader: LoaderFunction = async ({
   request,
+  context,
   params,
 }: LoaderArgs) => {
   const { data } = await getActions({
     request,
+    context,
     all: true,
     account: params.slug,
   });

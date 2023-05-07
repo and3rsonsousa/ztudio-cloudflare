@@ -1,7 +1,7 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
 import { useLoaderData } from "@remix-run/react";
 import dayjs from "dayjs";
-import CalendarHeader from "~/components/CalendarHeader";
+import CalendarHeader from "~/components/Views/CalendarHeader";
 import Scrollable from "~/components/Scrollable";
 import CalendarYear from "~/components/Views/CalendarYear";
 import { getUser } from "~/lib/auth.server";
@@ -9,16 +9,19 @@ import { getActions } from "~/lib/data";
 import { checkDate, getYear } from "~/lib/functions";
 import type { ActionModel } from "~/lib/models";
 
-export async function loader({ request, params }: LoaderArgs) {
+export async function loader({ request, params, context }: LoaderArgs) {
   const {
     data: { session },
-  } = await getUser(request);
+  } = await getUser(request, context);
+
+  if (!session) throw new Error("No session");
 
   let date = new URL(request.url).searchParams.get("date");
   date = checkDate(date);
 
   const { data: actions } = await getActions({
     request,
+    context,
     account: params.slug,
     user: session?.user.id,
     period: date,

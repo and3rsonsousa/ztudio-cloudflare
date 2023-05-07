@@ -5,15 +5,15 @@ import Button from "~/components/Button";
 import { getAccount, getActions, handleAction } from "~/lib/data";
 import type { ActionModel } from "~/lib/models";
 
-export const action: ActionFunction = async ({ request }) => {
-  await handleAction(await request.formData(), request);
+export const action: ActionFunction = async ({ request, context }) => {
+  await handleAction(await request.formData(), request, context);
   return redirect("/dashboard/admin/accounts");
 };
 
-export const loader: LoaderFunction = async ({ params, request }) => {
+export const loader: LoaderFunction = async ({ params, request, context }) => {
   const [{ data: account }, { data: actions }] = await Promise.all([
-    getAccount(request, params.slug),
-    getActions({ request, account: params.slug, all: true }),
+    getAccount(request, context, params.slug),
+    getActions({ request, context, account: params.slug, all: true }),
   ]);
 
   if (!account) {

@@ -1,24 +1,33 @@
 import dayjs from "dayjs";
 import { getMonth, getWeek, getYear } from "./functions";
 import { getSupabase } from "./supabase";
+import { type AppLoadContext } from "@remix-run/cloudflare";
 
 const SQL__GET__ACTION = `*, account:Account!inner(*), category:Category(*), stage:Stage(*), campaign:Campaign(*), creator:Person!Action_creator_fkey(*), responsible:Person!Action_responsible_fkey(*) order by date`;
 
 const SQL__GET__ACTION_ONLY_ID = `date, account!inner(slug)`;
 
 // Simplificar para apenas dois
-export const getPerson = (id: string, request: Request) => {
-  const { supabase } = getSupabase(request);
+export const getPerson = (
+  id: string,
+  request: Request,
+  context: AppLoadContext
+) => {
+  const { supabase } = getSupabase(request, context);
   return supabase.from("Person").select("*").eq("id", id).single();
 };
 
-export const getPersonByUser = (id: string, request: Request) => {
-  const { supabase } = getSupabase(request);
+export const getPersonByUser = (
+  id: string,
+  request: Request,
+  context: AppLoadContext
+) => {
+  const { supabase } = getSupabase(request, context);
   return supabase.from("Person").select("*").eq("user", id).single();
 };
 
-export const getPersons = (request: Request) => {
-  const { supabase } = getSupabase(request);
+export const getPersons = (request: Request, context: AppLoadContext) => {
+  const { supabase } = getSupabase(request, context);
   return supabase.from("Person").select("*").order("name", { ascending: true });
 };
 
@@ -26,18 +35,23 @@ export const getPersons = (request: Request) => {
 
 export const getAccount = async (
   request: Request,
+  context: AppLoadContext,
   slug?: string,
   id?: string
 ) => {
-  const { supabase } = getSupabase(request);
+  const { supabase } = getSupabase(request, context);
   if (id) {
     return supabase.from("Account").select("*").eq("id", id).single();
   }
   return supabase.from("Account").select("*").eq("slug", slug).single();
 };
 
-export const getAccounts = (userId: string, request: Request) => {
-  const { supabase } = getSupabase(request);
+export const getAccounts = (
+  userId: string,
+  request: Request,
+  context: AppLoadContext
+) => {
+  const { supabase } = getSupabase(request, context);
   return supabase
     .from("Account")
     .select("*")
@@ -47,15 +61,18 @@ export const getAccounts = (userId: string, request: Request) => {
     });
 };
 
-export const getAllAccounts = (request: Request) => {
-  const { supabase } = getSupabase(request);
+export const getAllAccounts = (request: Request, context: AppLoadContext) => {
+  const { supabase } = getSupabase(request, context);
   return supabase.from("Account").select("*").order("name", {
     ascending: true,
   });
 };
 
-export const getCategoriesStagesAttributes = async (request: Request) => {
-  const { supabase } = getSupabase(request);
+export const getCategoriesStagesAttributes = async (
+  request: Request,
+  context: AppLoadContext
+) => {
+  const { supabase } = getSupabase(request, context);
   const [{ data: categories }, { data: stages }, { data: attributes }] =
     await Promise.all([
       supabase
@@ -75,6 +92,7 @@ export const getCategoriesStagesAttributes = async (request: Request) => {
 export const getActions = async (
   args: {
     request?: Request;
+    context?: AppLoadContext;
     user?: string;
     account?: string;
     period?: string | null;
@@ -83,12 +101,13 @@ export const getActions = async (
     where?: string;
   } = {}
 ) => {
-  let { user, account, period, request, all, where, mode } = args;
+  let { user, account, period, request, context, all, where, mode } = args;
 
-  if (!request) {
-    return { error: { message: "Request is undefined" } };
+  if (!request || !context) {
+    return { error: { message: "" } };
   }
-  const { supabase } = getSupabase(request);
+
+  const { supabase } = getSupabase(request, context);
 
   if (all) {
     if (account) {
@@ -181,8 +200,12 @@ export const getActions = async (
   }
 };
 
-export const getAction = async (request: Request, id: string) => {
-  const { supabase } = getSupabase(request);
+export const getAction = async (
+  request: Request,
+  context: AppLoadContext,
+  id: string
+) => {
+  const { supabase } = getSupabase(request, context);
   const { data, error } = await supabase
     .from("Action")
     .select(SQL__GET__ACTION)
@@ -193,23 +216,20 @@ export const getAction = async (request: Request, id: string) => {
 };
 
 export const getCelebrations = async (
-  args: {
-    request?: Request;
-  } = {}
+  request: Request,
+  context: AppLoadContext
 ) => {
-  let { request } = args;
-
-  if (!request) {
-    throw new Error("Request is undefined");
-  }
-
-  const { supabase } = getSupabase(request);
+  const { supabase } = getSupabase(request, context);
 
   return supabase.from("Celebration").select("*").order("is_holiday");
 };
 
-export const getCampaign = async (request: Request, id: string) => {
-  const { supabase } = getSupabase(request);
+export const getCampaign = async (
+  request: Request,
+  context: AppLoadContext,
+  id: string
+) => {
+  const { supabase } = getSupabase(request, context);
   const { data, error } = await supabase
     .from("Campaign")
     .select(
@@ -222,19 +242,12 @@ export const getCampaign = async (request: Request, id: string) => {
 };
 
 export const getCampaigns = async (
-  args: {
-    request?: Request;
-    user?: string;
-    account?: string;
-  } = {}
+  request: Request,
+  context: AppLoadContext,
+  user: string,
+  account?: string
 ) => {
-  let { request, user, account } = args;
-
-  if (!request) {
-    throw new Error("Request is undefined");
-  }
-
-  const { supabase } = getSupabase(request);
+  const { supabase } = getSupabase(request, context);
 
   // TODO:
   // Filtrar campanhas pelas contas que o usuário tem acesso
@@ -253,9 +266,6 @@ export const getCampaigns = async (
 
     return { data, error };
   } else {
-    if (!user) {
-      throw new Error("User is undefined");
-    }
     const { data, error } = await supabase
       .from("Campaign")
       .select(
@@ -274,8 +284,12 @@ export const getCampaigns = async (
   }
 };
 
-async function createCelebration(formData: FormData, request: Request) {
-  const { supabase } = getSupabase(request);
+async function createCelebration(
+  formData: FormData,
+  request: Request,
+  context: AppLoadContext
+) {
+  const { supabase } = getSupabase(request, context);
 
   let name = formData.get("name");
   let date = formData.get("date") as string;
@@ -305,14 +319,18 @@ async function createCelebration(formData: FormData, request: Request) {
   };
 }
 
-export const handleAction = async (formData: FormData, request: Request) => {
+export const handleAction = async (
+  formData: FormData,
+  request: Request,
+  context: AppLoadContext
+) => {
   const action = formData.get("action") as string;
-  const { supabase } = getSupabase(request);
+  const { supabase } = getSupabase(request, context);
 
   if (action.match(/create-/)) {
     // Celebration
     if (action === "create-celebration") {
-      return await createCelebration(formData, request);
+      return await createCelebration(formData, request, context);
     } else if (action === "create-action") {
       const creator = formData.get("creator");
       const name = formData.get("name");
@@ -497,7 +515,7 @@ export const handleAction = async (formData: FormData, request: Request) => {
   } else if (action.match(/delete-/)) {
     let table = "";
     const id = formData.get("id") as string;
-    const { supabase } = getSupabase(request);
+    const { supabase } = getSupabase(request, context);
 
     if (action === "delete-action") {
       const { data, error } = await supabase

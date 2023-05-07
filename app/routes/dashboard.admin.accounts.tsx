@@ -6,27 +6,34 @@ import { getUser } from "~/lib/auth.server";
 import { getAccounts, getPersonByUser, handleAction } from "~/lib/data";
 import type { AccountModel } from "~/lib/models";
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, context }) => {
   const formData = await request.formData();
-  return await handleAction(formData, request);
+  return await handleAction(formData, request, context);
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
   const {
     data: { session },
-    response,
-  } = await getUser(request);
+  } = await getUser(request, context);
+  if (!session) throw new Error("No session");
 
-  if (session === null) {
-    return redirect(`/login`, { headers: response.headers });
-  }
-  const { data: person } = await getPersonByUser(session.user.id, request);
+  const { data: person } = await getPersonByUser(
+    session.user.id,
+    request,
+    context
+  );
+
+  if (!person) throw new Error("No person founded");
 
   if (!person.admin) {
     return redirect("/");
   }
 
-  const { data: accounts } = await getAccounts(session.user.id, request);
+  const { data: accounts } = await getAccounts(
+    session.user.id,
+    request,
+    context
+  );
 
   return { accounts };
 };

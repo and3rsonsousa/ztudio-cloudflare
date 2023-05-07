@@ -13,9 +13,9 @@ import { getPersons } from "~/lib/data";
 import type { PersonModel } from "~/lib/models";
 import { getSupabase } from "~/lib/supabase";
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, context }) => {
   const formData = await request.formData();
-  const { supabase } = getSupabase(request);
+  const { supabase } = getSupabase(request, context);
 
   if (formData.get("name") === "") {
     return { error: { message: "Preencha o campo 'Nome'" } };
@@ -45,8 +45,8 @@ export const action: ActionFunction = async ({ request }) => {
   return { data, error };
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
-  const { data: persons } = await getPersons(request);
+export const loader: LoaderFunction = async ({ request, context }) => {
+  const { data: persons } = await getPersons(request, context);
   return { persons };
 };
 

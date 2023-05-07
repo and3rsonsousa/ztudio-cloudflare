@@ -11,26 +11,30 @@ import { getPersonByUser } from "~/lib/data";
 import type { ContextType, PersonModel } from "~/lib/models";
 import { getSupabase } from "~/lib/supabase";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
   const {
     data: { session },
     response,
-  } = await getUser(request);
+  } = await getUser(request, context);
 
   if (session === null) {
     return redirect(`/login`, { headers: response.headers });
   }
 
-  const { data: person } = await getPersonByUser(session.user.id, request);
+  const { data: person } = await getPersonByUser(
+    session.user.id,
+    request,
+    context
+  );
 
   return { person };
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, context }) => {
   const formData = await request.formData();
 
   const { name, email, id } = Object.fromEntries(formData);
-  const { supabase } = getSupabase(request);
+  const { supabase } = getSupabase(request, context);
 
   const { data, error } = await supabase
     .from("Person")

@@ -16,8 +16,8 @@ import type {
   DayModel,
   ItemModel,
 } from "~/lib/models";
-import Day from "../CalendarDayGrid";
-import CalendarHeader from "../CalendarHeader";
+import Day from "./CalendarDayGrid";
+import CalendarHeader from "./CalendarHeader";
 import DataFlow from "../DataFlow";
 import DayInfo from "../DayInfo";
 import InstagramGrid from "../InstagramGrid";

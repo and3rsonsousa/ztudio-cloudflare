@@ -14,22 +14,23 @@ import type { ActionModel } from "~/lib/models";
 
 export const action: ActionFunction = async ({
   request,
+  context,
   params,
 }: LoaderArgs) => {
   const formData = await request.formData();
-  const { error } = await handleAction(formData, request);
+  const { error } = await handleAction(formData, request, context);
   const redirectTo = new URL(request.url).searchParams.get("redirectTo");
 
   if (error) return { error };
   return redirect(redirectTo ?? `/dashboard/${params.slug}`);
 };
 
-export const loader: LoaderFunction = async ({ request, params }) => {
+export const loader: LoaderFunction = async ({ request, context, params }) => {
   const [{ data: action }, { data: actions }, { data: campaigns }] =
     await Promise.all([
-      getAction(request, params.id as string),
-      getActions({ request, account: params.slug }),
-      getCampaigns({ request, account: params.slug }),
+      getAction(request, context, params.id as string),
+      getActions({ request, context, account: params.slug }),
+      getCampaigns(request, context, "", params.slug),
     ]);
 
   return { action, actions, campaigns };

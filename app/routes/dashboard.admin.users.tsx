@@ -13,28 +13,32 @@ import { getUser } from "~/lib/auth.server";
 import { getPersonByUser, getPersons, handleAction } from "~/lib/data";
 import type { PersonModel } from "~/lib/models";
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, context }) => {
   const formData = await request.formData();
-  return await handleAction(formData, request);
+  return await handleAction(formData, request, context);
 };
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
   const {
     data: { session },
     response,
-  } = await getUser(request);
+  } = await getUser(request, context);
 
   if (session === null) {
     return redirect(`/login`, { headers: response.headers });
   }
 
-  const { data: person } = await getPersonByUser(session.user.id, request);
+  const { data: person } = await getPersonByUser(
+    session.user.id,
+    request,
+    context
+  );
 
   if (person && !person.admin) {
     return redirect("/dashboard");
   }
 
-  const { data: persons } = await getPersons(request);
+  const { data: persons } = await getPersons(request, context);
 
   return { persons };
 };

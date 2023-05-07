@@ -10,14 +10,16 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  isRouteErrorResponse,
   useLoaderData,
+  useRouteError,
 } from "@remix-run/react";
 import styles from "./tailwind.css";
 import { createServerClient } from "./lib/supabase";
 import { useState } from "react";
 import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import dayjs from "dayjs";
-import { ContextType } from "./lib/models";
+import { type ContextType } from "./lib/models";
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -143,4 +145,41 @@ export default function App() {
       </body>
     </html>
   );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <div>
+        <h1>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </div>
+    );
+  } else if (error instanceof Error) {
+    return (
+      <html lang="pt-br">
+        <head>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width,initial-scale=1" />
+          <Meta />
+          <Links />
+        </head>
+        <body>
+          <div className="grid min-h-screen place-content-center">
+            <div>
+              <h1 className="mb-0 text-error-600">Error</h1>
+              <p className="mb-8 text-2xl font-light">{error.message}</p>
+              <pre>{error.stack}</pre>
+            </div>
+          </div>
+        </body>
+      </html>
+    );
+  } else {
+    return <h1>Unknown Error</h1>;
+  }
 }

@@ -7,6 +7,7 @@ import { checkDate } from "~/lib/functions";
 
 export const loader: LoaderFunction = async ({
   request,
+  context,
   params,
 }: LoaderArgs) => {
   let period = new URL(request.url).searchParams.get("date");
@@ -14,16 +15,21 @@ export const loader: LoaderFunction = async ({
 
   const {
     data: { session },
-  } = await getUser(request);
+  } = await getUser(request, context);
+
+  if (!session) {
+    throw new Error("No session defined");
+  }
 
   const [{ data: actions }, { data: campaigns }] = await Promise.all([
     getActions({
       request,
+      context,
       account: params.account,
-      user: session?.user.id,
+      user: session.user.id,
       period,
     }),
-    getCampaigns({ request, user: session?.user.id }),
+    getCampaigns(request, context, session.user.id),
   ]);
 
   return { actions, campaigns, date: period };

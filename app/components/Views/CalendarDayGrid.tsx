@@ -18,10 +18,10 @@ import type {
   DayModel,
   ItemModel,
 } from "~/lib/models";
-import { ActionLine } from "./Actions";
-import Button from "./Button";
-import { CampaignLine } from "./Campaign";
-import Celebration from "./Celebrations";
+import { ActionLine } from "../Actions";
+import Button from "../Button";
+import { CampaignLine } from "../Campaign";
+import Celebration from "../Celebrations";
 
 export default function Day({
   day,

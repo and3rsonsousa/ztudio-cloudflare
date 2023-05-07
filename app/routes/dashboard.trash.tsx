@@ -4,9 +4,10 @@ import { Actions } from "~/components/Actions";
 import Scrollable from "~/components/Scrollable";
 import { getActions } from "~/lib/data";
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
   const { data } = await getActions({
     request,
+    context,
     all: true,
     where: "trash",
   });

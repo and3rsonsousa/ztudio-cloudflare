@@ -10,6 +10,7 @@ import { checkDate } from "~/lib/functions";
 
 export const loader: LoaderFunction = async ({
   request,
+  context,
   params,
 }: LoaderArgs) => {
   const period = checkDate(
@@ -20,17 +21,18 @@ export const loader: LoaderFunction = async ({
   const [{ data: actions }, { data: campaigns }] = await Promise.all([
     getActions({
       request,
+      context,
       account: params.slug,
       period,
     }),
-    getCampaigns({ request, account: params.slug }),
+    getCampaigns(request, context, "", params.slug),
   ]);
   return { actions, campaigns, date: period };
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, context }) => {
   const formData = await request.formData();
-  return handleAction(formData, request);
+  return handleAction(formData, request, context);
 };
 
 export default function SlugIndex() {

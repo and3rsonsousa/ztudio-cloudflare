@@ -3,7 +3,7 @@ import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { isToday } from "~/lib/functions";
-import Button from "./Button";
+import Button from "../Button";
 
 import "dayjs/locale/pt-br";
 import timezone from "dayjs/plugin/timezone";
@@ -27,7 +27,7 @@ export default function CalendarHeader({
   return (
     <div className="flex w-full items-center justify-between gap-2 md:w-auto lg:justify-start">
       {/* Mês e ano */}
-      <h4 className="mb-0 py-4 px-2 first-letter:capitalize">
+      <h4 className="mb-0 px-2 py-4 first-letter:capitalize">
         {view === "year" ? (
           date.format("YYYY")
         ) : view === "week" ? (

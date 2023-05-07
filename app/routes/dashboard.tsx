@@ -16,7 +16,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
 
   const {
     data: { session },
-  } = await getUser(request);
+  } = await getUser(request, context);
 
   if (!session) {
     throw redirect("/login", { headers: response.headers });
@@ -30,11 +30,11 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     { categories, stages, attributes },
     { data: celebrations },
   ] = await Promise.all([
-    getPersonByUser(userId, request),
-    getPersons(request),
-    getAccounts(userId, request),
-    getCategoriesStagesAttributes(request),
-    getCelebrations({ request }),
+    getPersonByUser(userId, request, context),
+    getPersons(request, context),
+    getAccounts(userId, request, context),
+    getCategoriesStagesAttributes(request, context),
+    getCelebrations(request, context),
   ]);
   const url = new URL(request.url).pathname;
   return {

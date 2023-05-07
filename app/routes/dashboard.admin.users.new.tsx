@@ -5,9 +5,9 @@ import Button from "~/components/Button";
 import InputField from "~/components/Forms/InputField";
 import { getSupabase } from "~/lib/supabase";
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, context }) => {
   const formData = await request.formData();
-  const { supabase } = getSupabase(request);
+  const { supabase } = getSupabase(request, context);
 
   if (formData.get("name") === "") {
     return { error: { message: "Preencha o campo 'Nome'" } };

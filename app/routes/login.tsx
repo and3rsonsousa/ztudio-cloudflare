@@ -1,10 +1,10 @@
-import type { LoaderArgs, LoaderFunction } from "@remix-run/cloudflare";
+import type { LoaderFunction } from "@remix-run/cloudflare";
 import type { AuthError } from "@supabase/supabase-js";
 import type { ContextType } from "~/lib/models";
 
 import { redirect } from "@remix-run/cloudflare";
 import { Form, useNavigate, useOutletContext } from "@remix-run/react";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
+import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { Lock, Unlock } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import useMeasure from "react-use-measure";
@@ -51,11 +51,11 @@ const quotes: Array<{ quote: string; author: string }> = [
   },
 ];
 
-export const loader: LoaderFunction = async ({ request }: LoaderArgs) => {
+export const loader: LoaderFunction = async ({ request, context }) => {
   const {
     data: { session },
     response,
-  } = await getUser(request);
+  } = await getUser(request, context);
 
   if (session) {
     throw redirect("/dashboard", { headers: response.headers });
