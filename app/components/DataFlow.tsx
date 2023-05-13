@@ -26,7 +26,7 @@ const DataFlow = ({ actions }: { actions: ActionModel[] }) => {
   return (
     <div className="flex">
       <div className="px-2 text-center md:px-4">
-        <div className="font-bold">{total} AÇÕES</div>
+        <div className="whitespace-nowrap font-bold">{total} AÇÕES</div>
         <div className="mt-1 hidden h-1 overflow-hidden rounded-full bg-gray-700 md:flex">
           {Stages.reverse().map((stage) => (
             <div

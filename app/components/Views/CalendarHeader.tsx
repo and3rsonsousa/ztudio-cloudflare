@@ -27,7 +27,7 @@ export default function CalendarHeader({
   return (
     <div className="flex w-full items-center justify-between gap-2 md:w-auto lg:justify-start">
       {/* Mês e ano */}
-      <h4 className="mb-0 px-2 py-4 first-letter:capitalize">
+      <h4 className="mb-0 block overflow-hidden whitespace-nowrap px-2 py-4 first-letter:capitalize">
         {view === "year" ? (
           date.format("YYYY")
         ) : view === "week" ? (
