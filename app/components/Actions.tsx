@@ -70,7 +70,8 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
       onBlur={(event) => {
         if (
           event.currentTarget.textContent &&
-          event.currentTarget.textContent.length > 3
+          event.currentTarget.textContent.length > 3 &&
+          event.currentTarget.textContent !== action.name
         ) {
           fetcher.submit(
             {
