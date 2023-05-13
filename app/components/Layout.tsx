@@ -297,12 +297,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </div>
 
           {/* Search */}
-          <div className="lg:p-2">
+          <div className="w-full lg:p-2">
             <button
               onClick={() => {
                 context.search.set(true);
               }}
-              className="Z flex w-full cursor-text items-center gap-2 rounded-lg px-3 py-2 outline-none lg:bg-gray-100 lg:dark:bg-gray-800"
+              className=" flex w-full cursor-text items-center gap-2 rounded-lg px-3 py-2 outline-none lg:bg-gray-100 lg:dark:bg-gray-800"
             >
               {context.sidebar.open && (
                 <div className="hidden items-center gap-2 text-xs font-medium text-gray-400 lg:flex">
