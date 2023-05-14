@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 export default function TextareaField({
   label,
@@ -18,8 +18,18 @@ export default function TextareaField({
   required?: boolean;
   onChange?: (value: string) => void;
 }) {
-  const inputRef = useRef(null);
-  // const [content, setContent] = useState(value);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  useEffect(() => {
+    fixHeight();
+  }, []);
+
+  function fixHeight() {
+    if (textareaRef.current?.scrollHeight) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current?.scrollHeight}px`;
+    }
+  }
 
   return (
     <div className="field">
@@ -32,30 +42,11 @@ export default function TextareaField({
         required={required}
         onChange={(e) => {
           if (onChange) onChange(e.target.value);
+          fixHeight();
         }}
-        rows={rows}
-        ref={inputRef}
-        className={`field-default`}
+        ref={textareaRef}
+        className={`field-default overflow-y-hidden`}
       />
-      {/* <input
-        name={name}
-        type="hidden"
-        placeholder={placeholder}
-        value={content}
-        required={required}
-        // rows={rows}
-        ref={inputRef}
-        className={`field-default`}
-      /> */}
-      {/* <div
-        contentEditable={true}
-        className={`field-default`}
-        onInput={(e) => {
-          setContent(e.currentTarget.innerHTML);
-          if (onChange) onChange(content as string);
-        }}
-        dangerouslySetInnerHTML={{ __html: value ?? "" }}
-      /> */}
     </div>
   );
 }
