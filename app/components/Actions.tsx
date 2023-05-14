@@ -18,7 +18,9 @@ import {
   Copy,
   DollarSign,
   Edit,
+  Edit2,
   Edit3,
+  EditIcon,
   FilePlus2,
   Heart,
   HelpCircle,
@@ -127,7 +129,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
             let ele = e.target as HTMLElement;
             ele.classList.remove("dragging");
           }}
-          className={`action-line bg-${action.stage.slug} bg-${action.stage.slug}-hover @container`}
+          className={`action-line group/action bg-${action.stage.slug} bg-${action.stage.slug}-hover @container`}
           onClick={() => {
             setEdit(true);
           }}
@@ -166,6 +168,13 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
               )
             )}
           </div>
+          <Link
+            to={`/dashboard/${action.account.slug}/action/${action.id}`}
+            className={`absolute bottom-0 right-0 top-0 rounded-r-md bg-${action.stage.slug} px-2 py-1 opacity-0  transition group-hover/action:opacity-100`}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <Edit className="sq-4" />
+          </Link>
         </div>
       </ContextMenu.Trigger>
       <AnimatePresence>
