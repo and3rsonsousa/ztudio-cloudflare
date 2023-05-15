@@ -233,7 +233,7 @@ export const getCampaign = async (
   const { data, error } = await supabase
     .from("Campaign")
     .select(
-      "*, Action!inner(*), Account!Campaign_account_fkey!inner(*), stage:Stage!Campaign_stage_fkey!inner(*)"
+      "*, Action!inner(*), Account!Campaign_account_fkey!inner(*), Stage:Stage!Campaign_stage_fkey!inner(*)"
     )
     .eq("id", id)
     .single();
@@ -255,7 +255,7 @@ export const getCampaigns = async (
     const { data, error } = await supabase
       .from("Campaign")
       .select(
-        "*, Account!Campaign_account_fkey!inner(*),state:Campaign_stage_fkey(*)"
+        "*, Account!Campaign_account_fkey!inner(*),Stage:Campaign_stage_fkey(*)"
       )
 
       .eq("Account.slug", account)
@@ -269,7 +269,7 @@ export const getCampaigns = async (
     const { data, error } = await supabase
       .from("Campaign")
       .select(
-        "*, Account!Campaign_account_fkey!inner(*), stage:Campaign_stage_fkey(*)"
+        "*, Account!Campaign_account_fkey!inner(*), Stage:Campaign_stage_fkey(*)"
       )
 
       .contains("Account.users", [user])
