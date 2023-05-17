@@ -594,7 +594,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
                 <Dialog.Content forceMount className="dialog">
                   <motion.div
-                    className="dialog-content no-scrollbars max-h-[90vh] w-[90vw] max-w-lg overflow-hidden overflow-y-auto p-8 font-light antialiased "
+                    className="dialog-content max-h-[90vh] w-[90vw] max-w-lg overflow-hidden overflow-y-auto p-8 font-light antialiased"
                     {...scaleUp()}
                   >
                     <ActionDialog />

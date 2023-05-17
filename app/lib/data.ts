@@ -537,17 +537,19 @@ export const handleAction = async (
     } else if (action === "delete-celebration") {
       table = "Celebration";
     } else if (action === "delete-account") {
-      const [
-        { data: accountData, error: accountError },
-        { data: actionData, error: actionError },
-      ] = await Promise.all([
-        supabase.from("Account").delete().eq("id", id),
-        supabase.from("Action").delete().eq("account", id),
-      ]);
+      const actionsDeleted = await supabase
+        .from("Action")
+        .delete()
+        .eq("account", id);
+
+      const accountDeleted = await supabase
+        .from("Account")
+        .delete()
+        .eq("id", id);
 
       return {
-        data: { accountData, actionData },
-        error: { accountError, actionError },
+        data: { account: accountDeleted.data, action: actionsDeleted.data },
+        error: { account: accountDeleted.error, action: actionsDeleted.error },
       };
     } else if (action === "delete-campaign") {
       const { data, error } = await supabase

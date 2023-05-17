@@ -8,8 +8,8 @@ export default function Scrollable({
   skinnyThumb?: boolean;
 }) {
   return (
-    <ScrollArea.Root className="h-full w-full flex-auto overflow-hidden">
-      <ScrollArea.Viewport className="h-full">{children}</ScrollArea.Viewport>
+    <ScrollArea.Root className={`h-full w-full flex-auto overflow-hidden`}>
+      <ScrollArea.Viewport className={`h-full`}>{children}</ScrollArea.Viewport>
       <ScrollArea.Scrollbar
         orientation="vertical"
         className={`z-10 ${skinnyThumb ? "w-1" : "w-2"} bg-transparent`}
