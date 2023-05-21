@@ -310,11 +310,11 @@ body {
   @apply hover:bg-webdev-700;
 }
 
-.bg-ads {
-  @apply bg-ads-600 text-white;
+.bg-ad {
+  @apply bg-ad-500 text-white;
 }
-.bg-ads-hover {
-  @apply hover:bg-ads-700;
+.bg-ad-hover {
+  @apply hover:bg-ad-600;
 }
 
 /* Stage */

@@ -40,7 +40,7 @@ module.exports = {
       alert: colors.yellow,
       success: colors.emerald,
 
-      feed: colors.yellow,
+      feed: colors.amber,
       reels: colors.orange,
       task: colors.rose,
       stories: colors.pink,
@@ -49,7 +49,7 @@ module.exports = {
       tiktok: colors.sky,
       financial: colors.emerald,
       webdev: colors.lime,
-      ads: colors.green,
+      ad: colors.yellow,
 
       idea: colors.yellow,
       do: colors.orange,
