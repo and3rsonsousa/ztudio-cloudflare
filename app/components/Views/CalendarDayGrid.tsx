@@ -121,7 +121,7 @@ export default function Day({
           </Button>
           <Link
             className="uppercase transition lg:opacity-0 lg:group-hover:opacity-100"
-            to={`/dashboard/day/${day.date.format("DD-MM-YYYY")}`}
+            to={`/dashboard/day?date=${day.date.format("DD-MM-YYYY")}`}
           >
             <ExternalLink className="sq-4 w-4" />
           </Link>
