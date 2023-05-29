@@ -291,12 +291,12 @@ async function createCelebration(
 ) {
   const { supabase } = getSupabase(request, context);
 
-  let name = formData.get("name");
+  let name = formData.get("name") as string;
   let date = formData.get("date") as string;
   if (name === "" || date === "") {
     return {
       error: {
-        message: "Nome ou Data está em branco",
+        message: "'Nome' ou 'Data' está em branco",
       },
     };
   }

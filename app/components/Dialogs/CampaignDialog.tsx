@@ -51,7 +51,7 @@ export default function CampaignDialog({
 
   const isAdding =
     fetcher.state === "submitting" &&
-    fetcher.submission.formData.get("action") === "create-celebration";
+    fetcher.formData.get("action") === "create-celebration";
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {

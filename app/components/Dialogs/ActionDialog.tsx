@@ -89,11 +89,11 @@ export default function ActionDialog({
 
   const isAdding =
     fetcher.state === "submitting" &&
-    fetcher.submission.formData.get("action") === "create-action";
+    fetcher.formData.get("action") === "create-action";
 
   const isUpdating =
     fetcher.state === "submitting" &&
-    fetcher.submission.formData.get("action") === "update-action";
+    fetcher.formData.get("action") === "update-action";
 
   useEffect(() => {
     if (

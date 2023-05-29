@@ -13,7 +13,7 @@ export default function CelebrationDialog() {
   const fetcher = useFetcher();
   const isAdding =
     fetcher.state === "submitting" &&
-    fetcher.submission.formData.get("action") === "create-celebration";
+    fetcher.formData.get("action") === "create-celebration";
   const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {

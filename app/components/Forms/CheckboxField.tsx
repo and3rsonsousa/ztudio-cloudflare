@@ -3,8 +3,8 @@ import { Check } from "lucide-react";
 export default function CheckboxField({
   name,
   label,
-  checked,
-  value,
+  checked = false,
+  value = "true",
   onChange,
 }: {
   name: string;
@@ -14,9 +14,10 @@ export default function CheckboxField({
   onChange?: () => void;
 }) {
   return (
-    <label className="field field-checkbox">
+    <label className="field field-checkbox" htmlFor={name}>
       <input
         name={name}
+        id={name}
         type="checkbox"
         defaultChecked={checked}
         onChange={onChange}
