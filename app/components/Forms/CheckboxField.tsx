@@ -14,10 +14,9 @@ export default function CheckboxField({
   onChange?: () => void;
 }) {
   return (
-    <label className="field field-checkbox" htmlFor={name}>
+    <label className="field field-checkbox">
       <input
         name={name}
-        id={name}
         type="checkbox"
         defaultChecked={checked}
         onChange={onChange}

@@ -27,6 +27,7 @@ import "dayjs/locale/pt-br";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import relativeTime from "dayjs/plugin/relativeTime";
+import CheckboxField from "../Forms/CheckboxField";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -288,9 +289,32 @@ export default function ActionDialog({
             }
           />
 
-          <SelectField
+          {/* <SelectField
             name="responsible"
             title="Responsável"
+            items={personsItems}
+            value={action ? action.responsible.id : creator.id}
+          /> */}
+          <div>
+            {persons.map((person) => (
+              <CheckboxField
+                key={person.id}
+                name="responsibles"
+                value={person.id}
+                label={person.name}
+                checked={
+                  action
+                    ? action.responsibles.filter((user) => user === person.id)
+                        .length > 0
+                    : creator.id === person.id
+                }
+              />
+            ))}
+          </div>
+
+          <SelectField
+            name="responsible"
+            title="Responsáveis"
             items={personsItems}
             value={action ? action.responsible.id : creator.id}
           />

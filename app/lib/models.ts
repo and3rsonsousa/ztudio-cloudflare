@@ -46,6 +46,7 @@ export type ActionModel = {
   updated_at: string;
   creator: PersonModel;
   responsible: PersonModel;
+  responsibles: string[];
   category: ItemModel;
   stage: ItemModel;
   account: AccountModel;

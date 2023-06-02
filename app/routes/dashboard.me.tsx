@@ -90,7 +90,6 @@ export default function Me() {
                 }
               );
               setError(error);
-              console.log(error);
             }}
           >
             Clique aqui
