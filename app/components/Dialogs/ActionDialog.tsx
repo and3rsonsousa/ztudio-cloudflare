@@ -202,44 +202,39 @@ export default function ActionDialog({
           value={action ? action.name : undefined}
         />
 
-        <div className="flex gap-4">
-          <div className="w-full flex-auto md:w-1/2">
-            <SelectField
-              name="account"
-              title="Cliente"
-              items={accountItems}
-              value={
-                action ? action.account.id : account ? account.id : undefined
-              }
-              onChange={setSelectedAccount}
+        <div className="grid-cols-2 gap-4 md:grid">
+          <SelectField
+            name="account"
+            title="Cliente"
+            items={accountItems}
+            value={
+              action ? action.account.id : account ? account.id : undefined
+            }
+            onChange={setSelectedAccount}
+          />
+
+          {matches[3] && matches[3].data.campaign ? (
+            <input
+              type="hidden"
+              name="campaign"
+              value={matches[3].data.campaign.id}
             />
-          </div>
-          <div className="w-full flex-auto md:w-1/2">
-            {matches[3] && matches[3].data.campaign ? (
-              <input
-                type="hidden"
-                name="campaign"
-                value={matches[3].data.campaign.id}
-              />
-            ) : (
-              <SelectField
-                name="campaign"
-                title="Campanha"
-                items={campaignItems}
-                placeholder={
-                  selectedAccount
-                    ? campaignItems?.length > 0
-                      ? "Selecione uma campanha"
-                      : "Nenhum campanha para esse cliente"
-                    : "Escolha um cliente primeiro"
-                }
-                disabled={campaignItems?.length === 0}
-                value={
-                  action && action.campaign ? action.campaign.id : undefined
-                }
-              />
-            )}
-          </div>
+          ) : (
+            <SelectField
+              name="campaign"
+              title="Campanha"
+              items={campaignItems}
+              placeholder={
+                selectedAccount
+                  ? campaignItems?.length > 0
+                    ? "Selecione uma campanha"
+                    : "Nenhum campanha para esse cliente"
+                  : "Escolha um cliente primeiro"
+              }
+              disabled={campaignItems?.length === 0}
+              value={action && action.campaign ? action.campaign.id : undefined}
+            />
+          )}
         </div>
 
         <TextareaField
@@ -249,7 +244,7 @@ export default function ActionDialog({
           rows={action ? 5 : 3}
         />
 
-        <div className="grid w-full gap-4 md:grid-cols-2">
+        <div className="grid-cols-2 gap-4 md:grid">
           <SelectField
             name="category"
             title="Categoria"
