@@ -3,7 +3,7 @@ import { getMonth, getWeek, getYear } from "./functions";
 import { getSupabase } from "./supabase";
 import { type AppLoadContext } from "@remix-run/cloudflare";
 
-const SQL__GET__ACTION = `*, account:Account!inner(*), category:Category(*), stage:Stage(*), campaign:Campaign(*), creator:Person!Action_creator_fkey(*), responsible:Person!Action_responsible_fkey(*) order by date`;
+const SQL__GET__ACTION = `*, account:Account!inner(*), category:Category(*), stage:Stage(*), campaign:Campaign(*), creator:Person!Action_creator_fkey(*), responsible:Person!Action_responsible_fkey(*) order by date, responsibles`;
 
 const SQL__GET__ACTION_ONLY_ID = `date, account!inner(slug)`;
 
@@ -340,10 +340,11 @@ export const handleAction = async (
       const category = formData.get("category");
       const stage = formData.get("stage");
       const date = formData.get("date");
+      const responsibles = formData.getAll("responsibles");
 
       const values = {
         creator: creator,
-        responsible: creator,
+        responsibles,
         name,
         account,
         campaign: campaign ? campaign : null,
