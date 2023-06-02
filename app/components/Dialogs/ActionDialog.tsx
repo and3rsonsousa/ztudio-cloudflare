@@ -24,9 +24,9 @@ import Loader from "../Loader";
 import type { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
+import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import relativeTime from "dayjs/plugin/relativeTime";
 import CheckboxField from "../Forms/CheckboxField";
 
 dayjs.extend(utc);
@@ -68,10 +68,10 @@ export default function ActionDialog({
     value: account.id,
   }));
 
-  const personsItems = persons.map((person) => ({
-    title: person.name,
-    value: person.id,
-  }));
+  // const personsItems = persons.map((person) => ({
+  //   title: person.name,
+  //   value: person.id,
+  // }));
 
   const [selectedAccount, setSelectedAccount] = useState(
     account ? account.id : ""
@@ -289,13 +289,9 @@ export default function ActionDialog({
             }
           />
 
-          {/* <SelectField
-            name="responsible"
-            title="Responsável"
-            items={personsItems}
-            value={action ? action.responsible.id : creator.id}
-          /> */}
-          <div>
+          <div className="field">
+            <div className="field-label">Responsáveis</div>
+
             {persons.map((person) => (
               <CheckboxField
                 key={person.id}
@@ -312,12 +308,12 @@ export default function ActionDialog({
             ))}
           </div>
 
-          <SelectField
+          {/* <SelectField
             name="responsible"
             title="Responsáveis"
             items={personsItems}
             value={action ? action.responsible.id : creator.id}
-          />
+          /> */}
         </div>
 
         <div className={`h-16`}>

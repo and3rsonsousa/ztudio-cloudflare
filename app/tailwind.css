@@ -159,7 +159,7 @@ body {
   }
 
   .field-checkbox {
-    @apply relative flex items-center gap-4;
+    @apply relative mb-2 flex items-center gap-4;
   }
   .field-checkbox .field-label {
     @apply m-0;

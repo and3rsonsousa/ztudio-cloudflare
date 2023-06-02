@@ -76,8 +76,8 @@ export default function App() {
   const [day, setDay] = useState(dayjs());
   const [filter, setFilter] = useState("all");
   const [arrange, setArrange] = useState("arrange_all");
-  const [priority, setPriority] = useState(true);
-  const [openDialogAction, setDialogAction] = useState(true);
+  const [priority, setPriority] = useState(false);
+  const [openDialogAction, setDialogAction] = useState(false);
   const [openDialogCelebration, setDialogCelebration] = useState(false);
   const [openDialogCampaign, setDialogCampaign] = useState(false);
   const [openDialogSearch, setDialogSearch] = useState(false);
