@@ -37,6 +37,7 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     getCelebrations(request, context),
   ]);
   const url = new URL(request.url).pathname;
+
   return {
     person,
     persons,

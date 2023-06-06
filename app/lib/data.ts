@@ -464,7 +464,7 @@ export const handleAction = async (
         category: formData.get("category") as string,
         stage: formData.get("stage") as string,
         date: formData.get("date") as string,
-        responsible: formData.get("responsible") as string,
+        responsibles: formData.getAll("responsibles") as string[],
         updated_at: "NOW()",
         campaign:
           formData.get("campaign") !== ""

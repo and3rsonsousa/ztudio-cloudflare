@@ -18,9 +18,7 @@ import {
   Copy,
   DollarSign,
   Edit,
-  Edit2,
   Edit3,
-  EditIcon,
   FilePlus2,
   Heart,
   HelpCircle,
@@ -42,6 +40,7 @@ import type {
   ActionModel,
   ContextType,
   ItemModel,
+  PersonModel,
 } from "~/lib/models";
 import Button from "./Button";
 import Exclamation from "./Exclamation";
@@ -57,6 +56,15 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
   const fetcher = useFetcher();
   const updating = fetcher.state !== "idle";
   const nameRef = useRef<HTMLInputElement>(null);
+
+  const matches = useMatches();
+  const user: PersonModel = matches[1].data.person;
+  const persons: PersonModel[] = matches[1].data.persons;
+  const responsibles = persons.filter(
+    (person) =>
+      action.responsibles?.filter((responsible) => responsible === person.id)
+        .length > 0
+  );
 
   useEffect(() => {
     setTimeout(() => {
@@ -136,6 +144,7 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
           title={`${action.name} - ${action.account.name}`}
         >
           <IsLate action={action} />
+
           {updating ? (
             <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
               <Loader size="small" />
@@ -175,6 +184,22 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
           >
             <Edit className="sq-4" />
           </Link>
+          {responsibles.filter((responsible) => responsible.id !== user.id)
+            .length > 0 && (
+            <div
+              className="absolute -right-1 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-brand ring-2 ring-gray-950"
+              title={responsibles.map((r) => r.name).join(" - ")}
+            ></div>
+            // <div className="absolute -right-1 top-1/2 z-10 -translate-y-1/2">
+            //   {responsibles.map((responsible) => (
+            //     <div
+            //       key={responsible.id}
+            //       className="h-2 w-2 rounded-full bg-brand ring-2 ring-gray-950"
+            //       title={responsible.name}
+            //     ></div>
+            //   ))}
+            // </div>
+          )}
         </div>
       </ContextMenu.Trigger>
       <AnimatePresence>

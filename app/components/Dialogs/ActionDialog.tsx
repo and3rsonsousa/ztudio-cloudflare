@@ -68,11 +68,6 @@ export default function ActionDialog({
     value: account.id,
   }));
 
-  // const personsItems = persons.map((person) => ({
-  //   title: person.name,
-  //   value: person.id,
-  // }));
-
   const [selectedAccount, setSelectedAccount] = useState(
     account ? account.id : ""
   );
@@ -300,7 +295,7 @@ export default function ActionDialog({
                 label={person.name}
                 checked={
                   action
-                    ? action.responsibles.filter((user) => user === person.id)
+                    ? action.responsibles?.filter((user) => user === person.id)
                         .length > 0
                     : creator.id === person.id
                 }
