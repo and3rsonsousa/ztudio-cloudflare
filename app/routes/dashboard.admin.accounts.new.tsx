@@ -99,9 +99,9 @@ export default function NewAccount() {
             <CheckboxField
               name="users"
               label={p.name}
-              value={p.user_id}
-              key={p.user_id}
-              checked={p.user_id === person.user_id}
+              value={p.user.id}
+              key={p.user.id}
+              checked={p.user.id === person.user.id}
             />
           ))}
         </div>

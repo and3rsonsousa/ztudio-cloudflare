@@ -23,7 +23,7 @@ export const getPersonByUser = (
   context: AppLoadContext
 ) => {
   const { supabase } = getSupabase(request, context);
-  return supabase.from("Person").select("*").eq("user", id).single();
+  return supabase.from("Person").select("*, user()").eq("user_id", id).single();
 };
 
 export const getPersons = (request: Request, context: AppLoadContext) => {

@@ -1,10 +1,12 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Dayjs } from "dayjs";
+
 export type PersonModel = {
   id: string;
   name: string;
   email: string;
   admin: Boolean;
+  user: UserModel;
   user_id: string;
 };
 
