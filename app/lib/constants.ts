@@ -1,3 +1,5 @@
+import type { FormItemModel } from "./models";
+
 export const SHORTCUTS = {
   SEARCH: { shortcut: "K", does: "Buscar", value: "search" },
   NEW_ACTION: { shortcut: "A", does: "Nova Ação" },
@@ -48,3 +50,22 @@ export const SHORTCUTS = {
     value: "webdev",
   },
 };
+
+export const VIEWS: FormItemModel[] = [
+  {
+    label: "Dia",
+    value: "day",
+  },
+  {
+    label: "Semana",
+    value: "week",
+  },
+  {
+    label: "Mês",
+    value: "month",
+  },
+  {
+    label: "Ano",
+    value: "year",
+  },
+];

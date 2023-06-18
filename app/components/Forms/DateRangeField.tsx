@@ -11,13 +11,13 @@ import { getMonth } from "~/lib/functions";
 dayjs.locale("pt-br");
 
 export default function DatepickerField({
-  title,
+  label,
   names,
   day1,
   day2,
   full,
 }: {
-  title: string;
+  label: string;
   names: Array<string>;
   day1?: Dayjs;
   day2?: Dayjs;
@@ -37,7 +37,7 @@ export default function DatepickerField({
 
   return (
     <label className="field">
-      <div className="field-label">{title}</div>
+      <div className="field-label">{label}</div>
       <input
         type="hidden"
         name={names[0]}

@@ -27,6 +27,19 @@ dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.locale("pt-br");
 
+export let arrangeItems = [
+  {
+    label: SHORTCUTS.ARRANGE_ALL.does,
+    value: SHORTCUTS.ARRANGE_ALL.value,
+    shortcut: SHORTCUTS.ARRANGE_ALL.shortcut,
+  },
+  {
+    label: SHORTCUTS.ARRANGE_CATEGORIES.does,
+    value: SHORTCUTS.ARRANGE_CATEGORIES.value,
+    shortcut: SHORTCUTS.ARRANGE_CATEGORIES.shortcut,
+  },
+];
+
 export default function Calendar({
   actions,
   campaigns,
@@ -88,21 +101,9 @@ export default function Calendar({
     return _day;
   });
 
-  let arrangeDropdownItems = [
-    {
-      title: SHORTCUTS.ARRANGE_ALL.does,
-      value: SHORTCUTS.ARRANGE_ALL.value,
-      shortcut: SHORTCUTS.ARRANGE_ALL.shortcut,
-    },
-    {
-      title: SHORTCUTS.ARRANGE_CATEGORIES.does,
-      value: SHORTCUTS.ARRANGE_CATEGORIES.value,
-      shortcut: SHORTCUTS.ARRANGE_CATEGORIES.shortcut,
-    },
-  ];
   if (!slug)
-    arrangeDropdownItems.push({
-      title: SHORTCUTS.ARRANGE_ACCOUNTS.does,
+    arrangeItems.push({
+      label: SHORTCUTS.ARRANGE_ACCOUNTS.does,
       value: SHORTCUTS.ARRANGE_ACCOUNTS.value,
       shortcut: SHORTCUTS.ARRANGE_ACCOUNTS.shortcut,
     });
@@ -172,7 +173,7 @@ export default function Calendar({
             </DropdownMenu.Trigger>
             <DropdownMenu.Portal>
               <DropdownMenu.Content className="dropdown-content">
-                {arrangeDropdownItems.map((item, index) => (
+                {arrangeItems.map((item, index) => (
                   <DropdownMenu.Item
                     key={index}
                     title={`Cmd + K → ${item.shortcut}`}
@@ -187,7 +188,7 @@ export default function Calendar({
                       context.arrange.set(item.value);
                     }}
                   >
-                    {item?.title.substring(item.title.indexOf(" ") + 1)}
+                    {item?.label.substring(item.label.indexOf(" ") + 1)}
                     {context.arrange.option === item.value && (
                       <CheckCircle className="sq-4" />
                     )}

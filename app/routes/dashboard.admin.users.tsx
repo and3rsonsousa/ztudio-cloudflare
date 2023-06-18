@@ -14,6 +14,7 @@ import { getPersonByUser, getPersons, handleAction } from "~/lib/data";
 import type { PersonModel } from "~/lib/models";
 
 export const action: ActionFunction = async ({ request, context }) => {
+  // handle delete on the /dashboard/admin/users page
   const formData = await request.formData();
   return await handleAction(formData, request, context);
 };

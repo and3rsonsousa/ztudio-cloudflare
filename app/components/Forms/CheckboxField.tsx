@@ -5,13 +5,11 @@ export default function CheckboxField({
   label,
   checked = false,
   value = "true",
-  onChange,
 }: {
   name: string;
   label: string;
   checked?: boolean;
   value?: string;
-  onChange?: () => void;
 }) {
   return (
     <label className="field field-checkbox">
@@ -19,7 +17,6 @@ export default function CheckboxField({
         name={name}
         type="checkbox"
         defaultChecked={checked}
-        onChange={onChange}
         value={value}
       />
       <div className="checkbox">

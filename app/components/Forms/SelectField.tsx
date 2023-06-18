@@ -1,11 +1,10 @@
 import * as Select from "@radix-ui/react-select";
 import { CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useState } from "react";
-
-type SelectItemModel = { title: string; value: string };
+import type { FormItemModel } from "~/lib/models";
 
 export default function SelectField({
-  title,
+  label,
   name,
   value,
   items,
@@ -16,9 +15,9 @@ export default function SelectField({
   onChange,
 }: {
   name: string;
-  title?: React.ReactNode;
+  label?: React.ReactNode;
   value?: string;
-  items: SelectItemModel[] | SelectItemModel[][];
+  items: FormItemModel[] | FormItemModel[][];
   disabled?: boolean;
   small?: boolean;
   link?: boolean;
@@ -34,7 +33,7 @@ export default function SelectField({
 
   return (
     <label className="select-field field relative">
-      {title && <span className="field-label">{title}</span>}
+      {label && <span className="field-label">{label}</span>}
       <Select.Root
         open={open}
         onOpenChange={setOpen}
@@ -78,7 +77,7 @@ export default function SelectField({
                 ? _items.map((__items, index) => (
                     <Select.Group key={index}>
                       {index > 0 && <hr className="dropdown-hr" />}
-                      {(__items as SelectItemModel[]).map(
+                      {(__items as FormItemModel[]).map(
                         (item) =>
                           item && (
                             <Select.Item
@@ -88,7 +87,7 @@ export default function SelectField({
                                 small ? " item-small" : ""
                               } flex justify-between`}
                             >
-                              <Select.ItemText>{item.title}</Select.ItemText>
+                              <Select.ItemText>{item.label}</Select.ItemText>
                               <Select.ItemIndicator>
                                 <CheckCircle className="ml-2 w-4" />
                               </Select.ItemIndicator>

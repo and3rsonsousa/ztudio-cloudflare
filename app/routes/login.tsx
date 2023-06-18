@@ -1,9 +1,9 @@
 import type { LoaderFunction } from "@remix-run/cloudflare";
 import type { AuthError } from "@supabase/supabase-js";
-import type { ContextType } from "~/lib/models";
 
 import { redirect } from "@remix-run/cloudflare";
-import { Form, useNavigate, useOutletContext } from "@remix-run/react";
+import { Form, useLoaderData, useNavigate } from "@remix-run/react";
+import { createBrowserClient } from "@supabase/auth-helpers-remix";
 import { AnimatePresence, MotionConfig, motion } from "framer-motion";
 import { Lock, Unlock } from "lucide-react";
 import React, { useEffect, useState } from "react";
@@ -13,6 +13,7 @@ import Exclamation from "~/components/Exclamation";
 import Field from "~/components/Forms/InputField";
 import { scaleUp } from "~/lib/animations";
 import { getUser } from "~/lib/auth.server";
+import { PersonModel } from "~/lib/models";
 
 const quotes: Array<{ quote: string; author: string }> = [
   {
@@ -61,7 +62,9 @@ export const loader: LoaderFunction = async ({ request, context }) => {
     throw redirect("/dashboard", { headers: response.headers });
   }
 
-  return { session };
+  const { SUPABASE_URL, SUPABASE_ANON_KEY } = context;
+
+  return { session, env: { SUPABASE_ANON_KEY, SUPABASE_URL } };
 };
 
 export default function Login() {
@@ -69,9 +72,13 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<AuthError | null>(null);
-  const { supabase } = useOutletContext<ContextType>();
+  const { env } = useLoaderData();
+
   const [loading, setLoading] = useState(false);
   const [quote, setQuote] = useState({ quote: "", author: "" });
+  const [supabase] = useState(() => {
+    return createBrowserClient(env.SUPABASE_URL, env.SUPABASE_ANON_KEY);
+  });
   const navigate = useNavigate();
 
   async function signIn() {
@@ -86,7 +93,24 @@ export default function Login() {
     });
 
     if (session) {
-      navigate("/dashboard");
+      const { data: person } = await supabase
+        .from("Person")
+        .select("*")
+        .eq("user_id", session.user.id)
+        .single();
+
+      const view = (person as PersonModel).config_view ?? "month";
+
+      const url =
+        view === "day"
+          ? "/dashboard/day"
+          : view === "year"
+          ? "/dashboard/year"
+          : view === "week"
+          ? "/dashboard/week"
+          : "/dashboard";
+
+      navigate(url);
     }
 
     setLoading(false);

@@ -41,11 +41,11 @@ export default function CampaignDialog({
     : matches[2].data.account;
 
   const accountItems = accounts.map((account) => ({
-    title: account.name,
+    label: account.name,
     value: account.id,
   }));
   const stageItems = stages.map((stage) => ({
-    title: stage.name,
+    label: stage.name,
     value: stage.id,
   }));
 
@@ -122,7 +122,7 @@ export default function CampaignDialog({
         {campaign || account ? (
           <input type="hidden" name="account" value={account.id} />
         ) : (
-          <SelectField name="account" title="Cliente" items={accountItems} />
+          <SelectField name="account" label="Cliente" items={accountItems} />
         )}
         <TextareaField
           name="description"
@@ -133,7 +133,7 @@ export default function CampaignDialog({
         <div className="grid gap-4 md:grid-cols-2">
           <DateRangeField
             names={["date_start", "date_end"]}
-            title="Período"
+            label="Período"
             full
             day1={campaign ? dayjs(campaign.date_start) : date}
             day2={campaign ? dayjs(campaign.date_end) : date.add(5, "days")}
@@ -141,7 +141,7 @@ export default function CampaignDialog({
 
           <SelectField
             name="stage"
-            title="Status"
+            label="Status"
             items={stageItems}
             value={campaign ? campaign.stage : undefined}
           />

@@ -1,5 +1,5 @@
 import type { LoaderArgs } from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useMatch } from "@remix-run/react";
 import dayjs from "dayjs";
 import CalendarHeader from "~/components/Views/CalendarHeader";
 import { getUser } from "~/lib/auth.server";
@@ -22,7 +22,6 @@ export async function loader({ params, request, context }: LoaderArgs) {
   const {
     data: { session },
   } = await getUser(request, context);
-
   if (!session) throw new Error("No session");
 
   let date = checkDate(new URL(request.url).searchParams.get("date"));
@@ -50,11 +49,8 @@ export default function DayPage() {
 
   return (
     <div className="lg:h-screen lg:overflow-hidden">
-      <div className="flex items-center justify-between gap-4 p-4">
-        <div>
-          <CalendarHeader date={dayjs(date)} view="day" />
-        </div>
-      </div>
+      <CalendarHeader date={dayjs(date)} view="day" />
+
       <Scrollable>
         <CalendarDay date={date} actions={actions} />
       </Scrollable>

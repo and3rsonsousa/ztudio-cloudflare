@@ -32,14 +32,21 @@ import ActionDialog from "./Dialogs/ActionDialog";
 import CampaignDialog from "./Dialogs/CampaignDialog";
 import CelebrationDialog from "./Dialogs/CelebrationDialog";
 import SearchDialog from "./Dialogs/SearchDialog";
+import Scrollable from "./Scrollable";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+export default function Layout({
+  children,
+  context,
+}: {
+  children: React.ReactNode;
+  context: ContextType;
+}) {
   const matches = useMatches();
   const { slug } = useParams();
 
   const person: PersonModel = matches[1].data.person;
   const accounts: AccountModel[] = matches[1].data.accounts;
-  const context: ContextType = useOutletContext();
+  // const context: ContextType = useOutletContext();
 
   const [shortcut, setShorcut] = useState<ShortcutModel>();
   const [scrollTo, setScrollTo] = useState(0);
@@ -203,10 +210,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   ];
 
   return (
-    <div className="flex h-screen w-full flex-col lg:flex-row">
+    <div className="flex h-screen w-full flex-col  lg:flex-row">
       {/* Header */}
       <div
-        className={`no-scrollbars fixed z-30 flex h-12 w-full flex-shrink-0 items-center justify-between border-b border-transparent transition-colors lg:relative lg:flex lg:h-screen lg:flex-col lg:overflow-hidden lg:overflow-y-auto lg:py-4 ${
+        className={`no-scrollbars fixed z-30 flex h-12 w-full flex-shrink-0 items-center justify-between border-b border-transparent transition-colors lg:relative lg:flex lg:h-screen lg:flex-col lg:overflow-hidden lg:overflow-y-auto ${
           context.sidebar.open ? "lg:w-48" : "lg:w-16"
         } ${
           scrollTo > 10
@@ -214,9 +221,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             : ""
         }`}
       >
-        <div className="lg:w-full">
+        <div className="overflow-hidden lg:w-full">
           {/* Logo */}
-          <div className={`-mt-1 max-w-[8rem] p-2 lg:pt-0`}>
+          <div className={`-mt-1 max-w-[8rem] p-2 lg:mt-2 lg:pt-0`}>
             <Link
               to="/dashboard"
               className=" block rounded p-2 outline-none focus:ring-2 focus:ring-brand"
@@ -236,26 +243,29 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             )}
           </div>
           {/* Clientes large view */}
-          <div className="hidden space-y-1 p-2 lg:block">
-            {accounts.map((account) => (
-              <div key={account.id}>
-                <Link
-                  to={`/dashboard/${account.slug}/${searchParams}`}
-                  className={`${
-                    context.sidebar.open
-                      ? "overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold "
-                      : "text-center text-xx font-bold uppercase"
-                  } block rounded-lg p-2  focus:outline-none focus:ring-2 focus:ring-brand ${
-                    slug === account.slug
-                      ? "bg-brand text-white ring-offset-2 ring-offset-white dark:ring-offset-gray-950"
-                      : "hover:bg-gray-100 dark:hover:bg-gray-800"
-                  }`}
-                >
-                  {context.sidebar.open ? account.name : account.short}
-                </Link>
-              </div>
-            ))}
-          </div>
+
+          <Scrollable skinnyThumb>
+            <div className="hidden space-y-1 p-2 lg:block">
+              {accounts.map((account) => (
+                <div key={account.id}>
+                  <Link
+                    to={`/dashboard/${account.slug}/${searchParams}`}
+                    className={`${
+                      context.sidebar.open
+                        ? "overflow-hidden text-ellipsis whitespace-nowrap text-xs font-semibold "
+                        : "text-center text-xx font-bold uppercase"
+                    } block rounded-lg p-2  focus:outline-none focus:ring-2 focus:ring-brand ${
+                      slug === account.slug
+                        ? "bg-brand text-white ring-offset-2 ring-offset-white dark:ring-offset-gray-950"
+                        : "hover:bg-gray-100 dark:hover:bg-gray-800"
+                    }`}
+                  >
+                    {context.sidebar.open ? account.name : account.short}
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </Scrollable>
         </div>
         <div className="flex items-center pr-2 lg:flex lg:w-full lg:flex-col lg:p-2">
           {/* Clientes mobile */}

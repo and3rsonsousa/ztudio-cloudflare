@@ -64,7 +64,7 @@ export default function ActionDialog({
     : matches[2].data.account;
 
   const accountItems = accounts.map((account) => ({
-    title: account.name,
+    label: account.name,
     value: account.id,
   }));
 
@@ -78,7 +78,7 @@ export default function ActionDialog({
       ? campaigns
           .filter((campaign) => campaign.account === selectedAccount)
           .map((campaign) => ({
-            title: campaign.name,
+            label: campaign.name,
             value: campaign.id,
           }))
       : [];
@@ -201,7 +201,7 @@ export default function ActionDialog({
         <div className="grid-cols-2 gap-4 md:grid">
           <SelectField
             name="account"
-            title="Cliente"
+            label="Cliente"
             items={accountItems}
             value={
               action ? action.account.id : account ? account.id : undefined
@@ -218,7 +218,7 @@ export default function ActionDialog({
           ) : (
             <SelectField
               name="campaign"
-              title="Campanha"
+              label="Campanha"
               items={campaignItems}
               placeholder={
                 selectedAccount
@@ -243,26 +243,26 @@ export default function ActionDialog({
         <div className="grid-cols-2 gap-4 md:grid">
           <SelectField
             name="category"
-            title="Categoria"
+            label="Categoria"
             value={
               action
                 ? action.category.id
                 : "d90224a7-abf2-4bc7-be60-e5d165a6a37a"
             }
             items={categories.map((category) => ({
-              title: category.name,
+              label: category.name,
               value: category.id,
             }))}
           />
 
           <SelectField
             name="stage"
-            title="Status"
+            label="Status"
             value={
               action ? action.stage.id : "32a26e75-5f4a-4ae7-8805-877909abb477"
             }
             items={stages.map((stage) => ({
-              title: stage.name,
+              label: stage.name,
               value: stage.id,
             }))}
           />
@@ -305,7 +305,7 @@ export default function ActionDialog({
 
           {/* <SelectField
             name="responsible"
-            title="Responsáveis"
+            label="Responsáveis"
             items={personsItems}
             value={action ? action.responsible.id : creator.id}
           /> */}

@@ -8,6 +8,10 @@ export type PersonModel = {
   admin: Boolean;
   user: UserModel;
   user_id: string;
+  config_order?: string;
+  config_view?: string;
+  config_sidebar?: string;
+  config_show?: string;
 };
 
 export type UserModel = {
@@ -71,6 +75,8 @@ export type ItemModel = {
   short?: string;
   priority?: number;
 };
+
+export type FormItemModel = { label: string; value: string };
 
 export type DayModel = {
   date: Dayjs;

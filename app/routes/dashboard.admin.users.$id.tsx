@@ -1,8 +1,11 @@
 import type { ActionFunction, LoaderFunction } from "@remix-run/cloudflare";
 import { Form, useActionData, useLoaderData } from "@remix-run/react";
-import Exclamation from "~/components/Exclamation";
 import Button from "~/components/Button";
+import Exclamation from "~/components/Exclamation";
 import InputField from "~/components/Forms/InputField";
+import ZRadioGroup from "~/components/Forms/zRadioGroup";
+import ZSwitch from "~/components/Forms/zSwitch";
+import { VIEWS } from "~/lib/constants";
 import { getPerson, handleAction } from "~/lib/data";
 import type { PersonModel } from "~/lib/models";
 
@@ -43,6 +46,45 @@ export default function UserId() {
         <input type="hidden" name="id" value={person.id} />
 
         <InputField name="name" label="Nome" value={person.name} />
+
+        <hr className="dropdown-hr" />
+
+        <div className="mb-2">
+          <h5>Configurações padrões</h5>
+        </div>
+
+        <ZRadioGroup
+          name="config_view"
+          label="View"
+          items={VIEWS}
+          column={2}
+          defaultValue={person.config_view}
+        />
+        <ZRadioGroup
+          name="config_order"
+          label="Ordem"
+          items={[
+            { label: "Status", value: "status" },
+            { label: "Data", value: "date" },
+          ]}
+          defaultValue={person.config_order}
+        />
+        <ZRadioGroup
+          name="config_show"
+          label="Organizar"
+          items={[
+            { label: "Mostrar todos", value: "arrange_all" },
+            { label: "Por categoria", value: "arrange_category" },
+            { label: "Por cliente", value: "arrange_account" },
+          ]}
+          defaultValue={person.config_show}
+        />
+        <ZSwitch
+          label="Sidebar"
+          name="config_sidebar"
+          labels={["Ocultar Sidebar", "Expandir Sidebar"]}
+          defaultChecked={person.config_sidebar === "true"}
+        />
 
         <div className="my-4">
           <Exclamation type="alert" icon>

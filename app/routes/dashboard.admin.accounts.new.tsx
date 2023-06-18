@@ -101,7 +101,7 @@ export default function NewAccount() {
               label={p.name}
               value={p.user.id}
               key={p.user.id}
-              checked={p.user.id === person.user.id}
+              checked={p.user.id === person.user_id}
             />
           ))}
         </div>

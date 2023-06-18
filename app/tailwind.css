@@ -162,16 +162,26 @@ body {
     @apply relative mb-2 flex items-center gap-4;
   }
   .field-checkbox .field-label {
-    @apply m-0;
+    @apply m-0 text-sm;
   }
   .field-checkbox input {
     @apply absolute opacity-0;
+  }
+  .field-checkbox .radio {
+    @apply h-4 w-4 rounded-sm border border-transparent bg-gray-600;
   }
   .field-checkbox .checkbox {
     @apply h-4 w-4 rounded border border-transparent bg-gray-600;
   }
   .field-checkbox .checkbox svg {
     @apply -mt-1 scale-50 text-white opacity-0 transition;
+  }
+
+  .field-checkbox .switch {
+    @apply h-4 w-8 rounded-full  border-transparent bg-gray-600;
+  }
+  .field-checkbox .switch-handle {
+    @apply absolute mt-0 h-4 w-5 rounded-full bg-gray-400 transition;
   }
 
   .field-checkbox input:checked ~ .checkbox {
@@ -181,8 +191,15 @@ body {
     @apply scale-100 opacity-100;
   }
 
-  .field-checkbox input:focus ~ .checkbox {
+  .field-checkbox input:focus ~ .checkbox,
+  .field-checkbox input:focus ~ .switch {
     @apply border-brand ring-2 ring-brand  ring-offset-2 ring-offset-gray-950;
+  }
+  .field-checkbox input:checked ~ .switch {
+    @apply relative bg-brand;
+  }
+  .field-checkbox input:checked ~ .switch .switch-handle {
+    @apply translate-x-3 bg-white;
   }
 
   .dropdown-content {

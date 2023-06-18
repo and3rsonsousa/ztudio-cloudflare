@@ -5,7 +5,7 @@ import { type AppLoadContext } from "@remix-run/cloudflare";
 
 const SQL__GET__ACTION = `*, account:Account!inner(*), category:Category(*), stage:Stage(*), campaign:Campaign(*), creator:Person!Action_creator_fkey(*), responsible:Person!Action_responsible_fkey(*) order by date, responsibles`;
 
-const SQL__GET__ACTION_ONLY_ID = `date, account!inner(slug)`;
+const SQL__GET__ACTION_ONLY_ID = `date, Account!inner(slug)`;
 
 // Simplificar para apenas dois
 export const getPerson = (
@@ -23,7 +23,9 @@ export const getPersonByUser = (
   context: AppLoadContext
 ) => {
   const { supabase } = getSupabase(request, context);
-  return supabase.from("Person").select("*, user()").eq("user_id", id).single();
+  const data = supabase.from("Person").select("*").eq("user_id", id).single();
+
+  return data;
 };
 
 export const getPersons = (request: Request, context: AppLoadContext) => {
@@ -104,7 +106,7 @@ export const getActions = async (
   let { user, account, period, request, context, all, where, mode } = args;
 
   if (!request || !context) {
-    return { error: { message: "" } };
+    return { error: { message: "Deu erro aqui" } };
   }
 
   const { supabase } = getSupabase(request, context);
@@ -325,6 +327,8 @@ export const handleAction = async (
   context: AppLoadContext
 ) => {
   const action = formData.get("action") as string;
+  if (!action) throw new Error("O campo 'action' não foi definido.");
+
   const { supabase } = getSupabase(request, context);
 
   if (action.match(/create-/)) {
@@ -477,6 +481,10 @@ export const handleAction = async (
       table = "Person";
       values = {
         name: formData.get("name") as string,
+        config_view: formData.get("config_view") as string,
+        config_order: formData.get("config_order") as string,
+        config_show: formData.get("config_show") as string,
+        config_sidebar: formData.get("config_sidebar") as string,
       };
     } else if (action === "update-account") {
       table = "Account";
