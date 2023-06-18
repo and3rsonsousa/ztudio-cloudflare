@@ -4,7 +4,6 @@ import {
   Link,
   useMatches,
   useNavigate,
-  useOutletContext,
   useParams,
   useSearchParams,
 } from "@remix-run/react";
