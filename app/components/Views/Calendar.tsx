@@ -111,8 +111,7 @@ export default function Calendar({
       const element = document.querySelector(
         `div[date-attr="${dayjs().format("YYYY-MM-DD")}"]`
       ) as HTMLElement;
-
-      spring.set(element.offsetTop);
+      if (element) spring.set(element.offsetTop);
     }
   }, [spring]);
 
