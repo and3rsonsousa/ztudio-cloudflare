@@ -49,9 +49,7 @@ export default function Layout({
   const [shortcut, setShorcut] = useState<ShortcutModel>();
   const [scrollTo, setScrollTo] = useState(0);
   const [openAccountsMenu, setOpenAccountsMenu] = useState(false);
-  const [openUserMenu, setOpenUserMenu] = useState(false);
   const [params] = useSearchParams();
-  const navigate = useNavigate();
 
   const searchParams =
     params.get("month") !== null ? `?month=${params.get("month")}` : "";
@@ -324,161 +322,7 @@ export default function Layout({
           </div>
 
           {/* User Menu */}
-          <div>
-            <DropdownMenu.Root
-              open={openUserMenu}
-              onOpenChange={setOpenUserMenu}
-            >
-              <DropdownMenu.Trigger className="flex items-center gap-2 rounded p-2 outline-none lg:w-full">
-                {context.sidebar.open && (
-                  <div className="hidden text-xs font-semibold lg:block">
-                    {person.name}
-                  </div>
-                )}
-
-                <User className={`w-4`} />
-              </DropdownMenu.Trigger>
-              <AnimatePresence>
-                {openUserMenu && (
-                  <DropdownMenu.Portal forceMount>
-                    <DropdownMenu.Content loop forceMount asChild>
-                      <motion.div
-                        {...scaleUp(0.3)}
-                        className="dropdown-content mr-4 origin-bottom"
-                      >
-                        {/* Theme Switcher */}
-                        {/* <div className="flex items-center justify-between gap-2">
-
-                        </div>
-
-                        <hr className="dropdown-hr" /> */}
-                        {/* Minha Conta */}
-                        <DropdownMenu.Label className="dropdown-label">
-                          minha conta
-                        </DropdownMenu.Label>
-                        {/* Meus Dados */}
-                        <DropdownMenu.Item asChild>
-                          <Link
-                            to="/dashboard/me"
-                            className="dropdown-item item-small"
-                          >
-                            Meus dados
-                          </Link>
-                        </DropdownMenu.Item>
-                        {/* Lixeira */}
-                        <DropdownMenu.Item asChild>
-                          <Link
-                            to="/dashboard/trash"
-                            className="dropdown-item item-small"
-                          >
-                            Lixeira
-                          </Link>
-                        </DropdownMenu.Item>
-                        <DropdownMenu.Item
-                          className="dropdown-item item-small"
-                          onSelect={() => context.shortcut.set(true)}
-                        >
-                          Ajuda
-                        </DropdownMenu.Item>
-                        {/* Sair */}
-                        <DropdownMenu.Item
-                          className="dropdown-item item-small"
-                          onSelect={async () => {
-                            const { error } =
-                              await context.supabase.auth.signOut();
-                            if (!error) {
-                              navigate("/login");
-                            }
-                          }}
-                        >
-                          Sair
-                        </DropdownMenu.Item>
-
-                        {/* Admin */}
-                        {person.admin && (
-                          <>
-                            <hr className="dropdown-hr" />
-                            <DropdownMenu.Label className="dropdown-label">
-                              admin
-                            </DropdownMenu.Label>
-                            {/* Clientes / Accounts  */}
-                            <DropdownMenu.Sub>
-                              <DropdownMenu.SubTrigger className="dropdown-item item-small">
-                                <div className="flex items-center">
-                                  <div>Clientes</div>
-                                  <ChevronRight className="ml-auto h-4 w-4" />
-                                </div>
-                              </DropdownMenu.SubTrigger>
-                              <DropdownMenu.Portal>
-                                <DropdownMenu.SubContent className="dropdown-content">
-                                  <DropdownMenu.Item asChild>
-                                    <Link
-                                      to={`/dashboard/admin/accounts`}
-                                      className="dropdown-item item-small"
-                                    >
-                                      Ver Clientes
-                                    </Link>
-                                  </DropdownMenu.Item>
-                                  <DropdownMenu.Item asChild>
-                                    <Link
-                                      to={`/dashboard/admin/accounts/new`}
-                                      className="dropdown-item item-small"
-                                    >
-                                      Novo Cliente
-                                    </Link>
-                                  </DropdownMenu.Item>
-                                </DropdownMenu.SubContent>
-                              </DropdownMenu.Portal>
-                            </DropdownMenu.Sub>
-                            {/* Usuários */}
-                            <DropdownMenu.Sub>
-                              <DropdownMenu.SubTrigger className="dropdown-item item-small">
-                                <div className="flex items-center">
-                                  <div>Usuários</div>
-                                  <ChevronRight className="ml-auto h-4 w-4" />
-                                </div>
-                              </DropdownMenu.SubTrigger>
-                              <DropdownMenu.Portal>
-                                <DropdownMenu.SubContent className="dropdown-content">
-                                  <DropdownMenu.Item asChild>
-                                    <Link
-                                      to={`/dashboard/admin/users/`}
-                                      className="dropdown-item item-small"
-                                    >
-                                      Ver Usuários
-                                    </Link>
-                                  </DropdownMenu.Item>
-                                  <DropdownMenu.Item asChild>
-                                    <Link
-                                      to={`/dashboard/admin/users/new`}
-                                      className="dropdown-item item-small"
-                                    >
-                                      Novo Usuário
-                                    </Link>
-                                  </DropdownMenu.Item>
-                                </DropdownMenu.SubContent>
-                              </DropdownMenu.Portal>
-                            </DropdownMenu.Sub>
-
-                            <hr className="dropdown-hr" />
-                            {/* Roadmap */}
-                            <DropdownMenu.Item asChild>
-                              <Link
-                                to={`/roadmap`}
-                                className="dropdown-item item-small"
-                              >
-                                Roadmap
-                              </Link>
-                            </DropdownMenu.Item>
-                          </>
-                        )}
-                      </motion.div>
-                    </DropdownMenu.Content>
-                  </DropdownMenu.Portal>
-                )}
-              </AnimatePresence>
-            </DropdownMenu.Root>
-          </div>
+          <UserMenu context={context} person={person} />
           {/* Create Action on Mobile */}
           <div className="ml-2 lg:hidden">
             <Button
@@ -697,3 +541,161 @@ export default function Layout({
     </div>
   );
 }
+
+const UserMenu = ({
+  context,
+  person,
+}: {
+  context: ContextType;
+  person: PersonModel;
+}) => {
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+  const navigate = useNavigate();
+  return (
+    <div>
+      <DropdownMenu.Root open={openUserMenu} onOpenChange={setOpenUserMenu}>
+        <DropdownMenu.Trigger className="flex items-center gap-2 rounded p-2 outline-none lg:w-full">
+          {context.sidebar.open && (
+            <div className="hidden text-xs font-semibold lg:block">
+              {person.name}
+            </div>
+          )}
+
+          <User className={`w-4`} />
+        </DropdownMenu.Trigger>
+        <AnimatePresence>
+          {openUserMenu && (
+            <DropdownMenu.Portal forceMount>
+              <DropdownMenu.Content loop forceMount asChild>
+                <motion.div
+                  {...scaleUp(0.3)}
+                  className="dropdown-content mx-4 origin-bottom-left"
+                >
+                  {/* Minha Conta */}
+                  <DropdownMenu.Label className="dropdown-label">
+                    minha conta
+                  </DropdownMenu.Label>
+                  {/* Meus Dados */}
+                  <DropdownMenu.Item asChild>
+                    <Link
+                      to="/dashboard/me"
+                      className="dropdown-item item-small"
+                    >
+                      Meus dados
+                    </Link>
+                  </DropdownMenu.Item>
+                  {/* Lixeira */}
+                  <DropdownMenu.Item asChild>
+                    <Link
+                      to="/dashboard/trash"
+                      className="dropdown-item item-small"
+                    >
+                      Lixeira
+                    </Link>
+                  </DropdownMenu.Item>
+                  <DropdownMenu.Item
+                    className="dropdown-item item-small"
+                    onSelect={() => context.shortcut.set(true)}
+                  >
+                    Ajuda
+                  </DropdownMenu.Item>
+                  {/* Sair */}
+                  <DropdownMenu.Item
+                    className="dropdown-item item-small"
+                    onSelect={async () => {
+                      const { error } = await context.supabase.auth.signOut();
+                      if (!error) {
+                        navigate("/login");
+                      }
+                    }}
+                  >
+                    Sair
+                  </DropdownMenu.Item>
+
+                  {/* Admin */}
+                  {person.admin && (
+                    <>
+                      <hr className="dropdown-hr" />
+                      <DropdownMenu.Label className="dropdown-label">
+                        admin
+                      </DropdownMenu.Label>
+                      {/* Clientes / Accounts  */}
+                      <DropdownMenu.Sub>
+                        <DropdownMenu.SubTrigger className="dropdown-item item-small">
+                          <div className="flex items-center">
+                            <div>Clientes</div>
+                            <ChevronRight className="ml-auto h-4 w-4" />
+                          </div>
+                        </DropdownMenu.SubTrigger>
+                        <DropdownMenu.Portal>
+                          <DropdownMenu.SubContent className="dropdown-content">
+                            <DropdownMenu.Item asChild>
+                              <Link
+                                to={`/dashboard/admin/accounts`}
+                                className="dropdown-item item-small"
+                              >
+                                Ver Clientes
+                              </Link>
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item asChild>
+                              <Link
+                                to={`/dashboard/admin/accounts/new`}
+                                className="dropdown-item item-small"
+                              >
+                                Novo Cliente
+                              </Link>
+                            </DropdownMenu.Item>
+                          </DropdownMenu.SubContent>
+                        </DropdownMenu.Portal>
+                      </DropdownMenu.Sub>
+                      {/* Usuários */}
+                      <DropdownMenu.Sub>
+                        <DropdownMenu.SubTrigger className="dropdown-item item-small">
+                          <div className="flex items-center">
+                            <div>Usuários</div>
+                            <ChevronRight className="ml-auto h-4 w-4" />
+                          </div>
+                        </DropdownMenu.SubTrigger>
+                        <DropdownMenu.Portal>
+                          <DropdownMenu.SubContent className="dropdown-content">
+                            <DropdownMenu.Item asChild>
+                              <Link
+                                to={`/dashboard/admin/users/`}
+                                className="dropdown-item item-small"
+                              >
+                                Ver Usuários
+                              </Link>
+                            </DropdownMenu.Item>
+                            <DropdownMenu.Item asChild>
+                              <Link
+                                to={`/dashboard/admin/users/new`}
+                                className="dropdown-item item-small"
+                              >
+                                Novo Usuário
+                              </Link>
+                            </DropdownMenu.Item>
+                          </DropdownMenu.SubContent>
+                        </DropdownMenu.Portal>
+                      </DropdownMenu.Sub>
+
+                      <hr className="dropdown-hr" />
+                      {/* Roadmap */}
+                      <DropdownMenu.Item asChild>
+                        <Link
+                          to={`/roadmap`}
+                          className="dropdown-item item-small"
+                        >
+                          Roadmap
+                        </Link>
+                      </DropdownMenu.Item>
+                    </>
+                  )}
+                </motion.div>
+              </DropdownMenu.Content>
+            </DropdownMenu.Portal>
+          )}
+        </AnimatePresence>
+      </DropdownMenu.Root>
+    </div>
+  );
+};
