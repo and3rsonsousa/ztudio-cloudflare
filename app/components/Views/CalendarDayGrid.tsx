@@ -45,8 +45,6 @@ export default function Day({
 
   const context: ContextType = useOutletContext();
 
-  console.log({ day });
-
   return (
     <div
       data-date={day.date.format("YYYY-MM-DD[T]HH:mm")}

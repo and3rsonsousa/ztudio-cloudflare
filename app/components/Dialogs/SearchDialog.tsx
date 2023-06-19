@@ -25,7 +25,7 @@ export default function SearchDialog({ context }: { context: ContextType }) {
   const stages: ItemModel[] = matches[1].data.stages;
   const categories: ItemModel[] = matches[1].data.categories;
   const navigate = useNavigate();
-  const { SUPABASE_URL, SUPABASE_ANON_KEY } = matches[0].data.env;
+  const { SUPABASE_URL, SUPABASE_ANON_KEY } = matches[1].data.env;
   const supabaseClient = new SupabaseClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   let _accounts = [{ name: "Home", short: "home", slug: "" }, ...accounts];
 

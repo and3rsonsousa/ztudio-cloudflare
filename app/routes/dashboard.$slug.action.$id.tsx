@@ -4,13 +4,17 @@ import type {
   LoaderFunction,
 } from "@remix-run/cloudflare";
 import { redirect } from "@remix-run/cloudflare";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import {
+  useActionData,
+  useLoaderData,
+  useOutletContext,
+} from "@remix-run/react";
 import ActionList from "~/components/ActionList";
 import AddActionDialog from "~/components/Dialogs/ActionDialog";
 import Exclamation from "~/components/Exclamation";
 import Scrollable from "~/components/Scrollable";
 import { getAction, getActions, getCampaigns, handleAction } from "~/lib/data";
-import type { ActionModel } from "~/lib/models";
+import type { ActionModel, ContextType } from "~/lib/models";
 
 export const action: ActionFunction = async ({
   request,
@@ -41,6 +45,7 @@ export default function ActionPage() {
     action: ActionModel;
     actions: ActionModel[];
   }>();
+  const context: ContextType = useOutletContext();
   const actionData = useActionData<{ error: { message: string } }>();
 
   return (
@@ -52,7 +57,7 @@ export default function ActionPage() {
           )}
           <Scrollable>
             <div className="p-4">
-              <AddActionDialog action={action} />
+              <AddActionDialog action={action} context={context} />
             </div>
           </Scrollable>
         </div>

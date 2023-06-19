@@ -336,9 +336,7 @@ export default function Layout({
                   </div>
                 )}
 
-                <User
-                  className={`${context.sidebar.open ? "ml-auto" : "ml-2"} w-4`}
-                />
+                <User className={`w-4`} />
               </DropdownMenu.Trigger>
               <AnimatePresence>
                 {openUserMenu && (

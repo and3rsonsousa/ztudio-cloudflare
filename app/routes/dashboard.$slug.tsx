@@ -13,7 +13,7 @@ import type { AccountModel } from "~/lib/models";
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   return [
     {
-      title: `${data.account.name} no ᴢᴛᴜᴅɪᴏ`,
+      title: `${data!.account.name} no ᴢᴛᴜᴅɪᴏ`,
     },
   ];
 };
