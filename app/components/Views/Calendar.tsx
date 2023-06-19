@@ -4,9 +4,9 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
-import { useMotionValue, useSpring } from "framer-motion";
+import { useSpring } from "framer-motion";
 import { AlarmCheck, CheckCircle, Clock, Filter, Layers } from "lucide-react";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ARRANGE_ITEMS } from "~/lib/constants";
 import { getMonth } from "~/lib/functions";
 import type {

@@ -45,6 +45,8 @@ export default function Day({
 
   const context: ContextType = useOutletContext();
 
+  console.log({ day });
+
   return (
     <div
       data-date={day.date.format("YYYY-MM-DD[T]HH:mm")}
@@ -179,7 +181,7 @@ export default function Day({
           </div>
         </div>
 
-        <div>
+        <div className="space-y-2">
           {arrange === "arrange_category"
             ? actionsByCategory(
                 day.actions,
@@ -240,10 +242,18 @@ export default function Day({
         </div>
       </div>
 
-      <div className="p-1">
-        {day.celebrations.map((celebration) => (
-          <Celebration celebration={celebration} key={celebration.id} small />
-        ))}
+      <div>
+        {day.celebrations.length > 0 && (
+          <div className="mt-4 border-t border-gray-800 p-1">
+            {day.celebrations.map((celebration) => (
+              <Celebration
+                celebration={celebration}
+                key={celebration.id}
+                small
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

@@ -50,7 +50,7 @@ const DayInfo = ({ day }: { day: DayModel }) => {
 
                 {/* Celebrations */}
                 {day.celebrations.length > 0 ? (
-                  <div className="mt-4 flex flex-col">
+                  <div className="mt-4 flex flex-col border-b border-gray-800 pb-2">
                     {day.celebrations.map((celebration, index) => (
                       <Celebration celebration={celebration} key={index} />
                     ))}
