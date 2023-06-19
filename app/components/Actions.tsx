@@ -190,15 +190,6 @@ export const ActionLine = ({ action }: { action: ActionModel }) => {
               className="absolute -right-1 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-brand ring-2 ring-gray-950"
               title={responsibles.map((r) => r.name).join(" - ")}
             ></div>
-            // <div className="absolute -right-1 top-1/2 z-10 -translate-y-1/2">
-            //   {responsibles.map((responsible) => (
-            //     <div
-            //       key={responsible.id}
-            //       className="h-2 w-2 rounded-full bg-brand ring-2 ring-gray-950"
-            //       title={responsible.name}
-            //     ></div>
-            //   ))}
-            // </div>
           )}
         </div>
       </ContextMenu.Trigger>
