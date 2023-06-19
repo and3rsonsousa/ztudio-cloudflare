@@ -1,4 +1,4 @@
-import { useFetcher, useOutletContext } from "@remix-run/react";
+import { useFetcher } from "@remix-run/react";
 import { useEffect, useRef } from "react";
 import type { ContextType } from "~/lib/models";
 import Button from "../Button";
@@ -7,8 +7,11 @@ import Checkbox from "../Forms/CheckboxField";
 import Field from "../Forms/InputField";
 import Loader from "../Loader";
 
-export default function CelebrationDialog() {
-  const context: ContextType = useOutletContext();
+export default function CelebrationDialog({
+  context,
+}: {
+  context: ContextType;
+}) {
   const date = context.date.day;
   const fetcher = useFetcher();
   const isAdding =

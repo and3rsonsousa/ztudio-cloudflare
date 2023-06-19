@@ -45,7 +45,6 @@ export default function Layout({
 
   const person: PersonModel = matches[1].data.person;
   const accounts: AccountModel[] = matches[1].data.accounts;
-  // const context: ContextType = useOutletContext();
 
   const [shortcut, setShorcut] = useState<ShortcutModel>();
   const [scrollTo, setScrollTo] = useState(0);
@@ -579,7 +578,7 @@ export default function Layout({
                     className="dialog-content no-scrollbars max-h-[90vh] w-[90vw] max-w-lg overflow-hidden overflow-y-auto p-8 font-light antialiased "
                     {...scaleUp()}
                   >
-                    <CelebrationDialog />
+                    <CelebrationDialog {...{ context }} />
                   </motion.div>
                 </Dialog.Content>
               </Dialog.Portal>
@@ -606,7 +605,7 @@ export default function Layout({
                     className="dialog-content max-h-[90vh] w-[90vw] max-w-lg overflow-hidden overflow-y-auto p-8 font-light antialiased"
                     {...scaleUp()}
                   >
-                    <ActionDialog />
+                    <ActionDialog context={context} />
                   </motion.div>
                 </Dialog.Content>
               </Dialog.Portal>
@@ -633,7 +632,7 @@ export default function Layout({
                     className="dialog-content no-scrollbars max-h-[90vh] w-[90vw] max-w-lg overflow-hidden overflow-y-auto p-8 font-light antialiased "
                     {...scaleUp()}
                   >
-                    <CampaignDialog />
+                    <CampaignDialog {...{ context }} />
                   </motion.div>
                 </Dialog.Content>
               </Dialog.Portal>
@@ -660,7 +659,7 @@ export default function Layout({
                     className="dialog-content w-[36rem] max-w-lg font-light antialiased"
                     {...scaleUp()}
                   >
-                    <SearchDialog />
+                    <SearchDialog {...{ context }} />
                   </motion.div>
                 </Dialog.Content>
               </Dialog.Portal>

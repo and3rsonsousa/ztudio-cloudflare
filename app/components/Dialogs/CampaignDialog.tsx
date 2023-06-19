@@ -2,7 +2,6 @@ import {
   Form,
   useFetcher,
   useMatches,
-  useOutletContext,
   useSearchParams,
 } from "@remix-run/react";
 import dayjs from "dayjs";
@@ -24,13 +23,15 @@ import Loader from "../Loader";
 
 export default function CampaignDialog({
   campaign,
+  context,
 }: {
   campaign?: CampaignModel;
+  context: ContextType;
 }) {
   const fetcher = useFetcher();
   const matches = useMatches();
   const [searchParams] = useSearchParams();
-  const context: ContextType = useOutletContext();
+
   const date = context.date.day;
 
   const accounts: AccountModel[] = matches[1].data.accounts;

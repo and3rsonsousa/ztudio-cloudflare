@@ -49,7 +49,7 @@ export default function CalendarHeader({
         )}
       </h4>
 
-      {/* Botões para mês e ano */}
+      {/* Botões Avaçar e Retroceder */}
 
       <div className="item-center flex">
         <Button link small icon squared asChild>
@@ -81,6 +81,8 @@ export default function CalendarHeader({
           </a>
         </Button>
       </div>
+
+      {/* Ano | Mês | Semana | Dia */}
       <div className="flex items-center gap-2 text-xx font-bold tracking-widest">
         <Link
           className={

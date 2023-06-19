@@ -4,9 +4,10 @@ import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
+import { useMotionValue, useSpring } from "framer-motion";
 import { AlarmCheck, CheckCircle, Clock, Filter, Layers } from "lucide-react";
-import { useState } from "react";
-import { SHORTCUTS } from "~/lib/constants";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { ARRANGE_ITEMS } from "~/lib/constants";
 import { getMonth } from "~/lib/functions";
 import type {
   ActionModel,
@@ -16,29 +17,16 @@ import type {
   DayModel,
   ItemModel,
 } from "~/lib/models";
-import Day from "./CalendarDayGrid";
-import CalendarHeader from "./CalendarHeader";
 import DataFlow from "../DataFlow";
 import DayInfo from "../DayInfo";
 import InstagramGrid from "../InstagramGrid";
 import Scrollable from "../Scrollable";
+import Day from "./CalendarDayGrid";
+import CalendarHeader from "./CalendarHeader";
 
 dayjs.extend(isSameOrAfter);
 dayjs.extend(isSameOrBefore);
 dayjs.locale("pt-br");
-
-export let arrangeItems = [
-  {
-    label: SHORTCUTS.ARRANGE_ALL.does,
-    value: SHORTCUTS.ARRANGE_ALL.value,
-    shortcut: SHORTCUTS.ARRANGE_ALL.shortcut,
-  },
-  {
-    label: SHORTCUTS.ARRANGE_CATEGORIES.does,
-    value: SHORTCUTS.ARRANGE_CATEGORIES.value,
-    shortcut: SHORTCUTS.ARRANGE_CATEGORIES.shortcut,
-  },
-];
 
 export default function Calendar({
   actions,
@@ -101,22 +89,32 @@ export default function Calendar({
     return _day;
   });
 
-  if (!slug)
-    arrangeItems.push({
-      label: SHORTCUTS.ARRANGE_ACCOUNTS.does,
-      value: SHORTCUTS.ARRANGE_ACCOUNTS.value,
-      shortcut: SHORTCUTS.ARRANGE_ACCOUNTS.shortcut,
+  let arrangeItems = ARRANGE_ITEMS;
+
+  if (slug) {
+    arrangeItems = ARRANGE_ITEMS.filter((item) => {
+      return item.value !== "arrange_account";
     });
+  }
 
-  // useEffect(() => {
-  //   if (window) {
-  //     const viewport = document.querySelector(".calendar-days");
+  const spring = useSpring(0, { stiffness: 200, damping: 30 });
+  spring.on("change", (value) => {
+    const viewport = document.querySelector(
+      ".calendar-scroll [data-radix-scroll-area-viewport]"
+    );
 
-  //     viewport
-  //       ?.querySelector(`div[date-attr="${dayjs().format("YYYY-MM-DD")}"]`)
-  //       ?.scrollIntoView();
-  //   }
-  // }, []);
+    viewport?.scrollTo(0, value);
+  });
+
+  useEffect(() => {
+    if (window) {
+      const element = document.querySelector(
+        `div[date-attr="${dayjs().format("YYYY-MM-DD")}"]`
+      ) as HTMLElement;
+
+      spring.set(element.offsetTop);
+    }
+  }, [spring]);
 
   return (
     <div className="calendar flex flex-col lg:h-full lg:overflow-hidden">
@@ -139,37 +137,37 @@ export default function Calendar({
               onChange={() => context.priority.set((prev) => !prev)}
             />
             <div
-              className={`grid h-8 w-8 place-items-center rounded-xl md:h-10 md:w-10 ${
+              className={`grid h-6 w-6 place-items-center rounded-lg md:h-8 md:w-8 ${
                 context.priority.option
                   ? "bg-brand text-white"
                   : "text-gray-400"
               }`}
               title="Cmd + K → H ( Ordenar por prioridade de status )"
             >
-              <AlarmCheck className="w-5" />
+              <AlarmCheck className="w-4" />
             </div>
             <div
-              className={`grid h-8 w-8 place-items-center rounded-xl md:h-10 md:w-10  ${
+              className={`grid h-6 w-6 place-items-center rounded-lg md:h-8 md:w-8  ${
                 !context.priority.option
                   ? "bg-brand text-white"
                   : "text-gray-400"
               }`}
               title="Cmd K → H ( Ordenar por horário de conclusão )"
             >
-              <Clock className={`w-5`} />
+              <Clock className={`w-4`} />
             </div>
           </label>
 
           <DropdownMenu.Root>
             <DropdownMenu.Trigger
-              className={`grid h-8 w-8 place-items-center rounded-lg dark:hover:text-white md:h-10 md:w-10 ${
+              className={`grid h-6 w-6 place-items-center rounded-lg dark:hover:text-white md:h-8 md:w-8 ${
                 context.arrange.option !== "arrange_all"
                   ? "bg-brand text-white"
                   : "text-gray-400"
               }`}
               title="Agrupar Ações"
             >
-              <Layers className="w-5" />
+              <Layers className="w-4" />
             </DropdownMenu.Trigger>
             <DropdownMenu.Portal>
               <DropdownMenu.Content className="dropdown-content">
@@ -200,9 +198,9 @@ export default function Calendar({
 
           <DropdownMenu.Root>
             <DropdownMenu.Trigger
-              className={`grid h-8 w-8 place-items-center rounded-lg text-gray-400 dark:hover:text-white md:h-10 md:w-10 bg-${context.filter.option}`}
+              className={`grid h-6 w-6 place-items-center rounded-lg text-gray-400 dark:hover:text-white md:h-8 md:w-8 bg-${context.filter.option}`}
             >
-              <Filter className="w-5" />
+              <Filter className="w-4" />
             </DropdownMenu.Trigger>
             <DropdownMenu.Portal>
               <DropdownMenu.Content className="dropdown-content">
@@ -256,33 +254,34 @@ export default function Calendar({
             )}
             <div className="absolute bottom-0 left-0 right-0 h-[1px]  bg-gradient-to-r from-transparent dark:via-gray-700"></div>
           </div>
-
-          <Scrollable>
-            <div className="calendar-days grid flex-auto grid-cols-7">
-              {days.map((day, index) => {
-                if (index % 7 === 0) {
-                  height = 0;
-                  for (let i = index; i < index + 7; i++) {
-                    if (days[i].campaigns.length > height) {
-                      height = days[i].campaigns.length;
+          <div className="calendar-scroll h-full overflow-hidden">
+            <Scrollable>
+              <div className="calendar-days grid flex-auto grid-cols-7">
+                {days.map((day, index) => {
+                  if (index % 7 === 0) {
+                    height = 0;
+                    for (let i = index; i < index + 7; i++) {
+                      if (days[i].campaigns.length > height) {
+                        height = days[i].campaigns.length;
+                      }
                     }
                   }
-                }
 
-                return (
-                  <Day
-                    key={index}
-                    day={day}
-                    height={height}
-                    firstDayOfCurrentMonth={firstDayOfCurrentMonth}
-                    selectedDay={selectedDay}
-                    setSelectedDay={setSelectedDay}
-                    arrange={context.arrange.option}
-                  />
-                );
-              })}
-            </div>
-          </Scrollable>
+                  return (
+                    <Day
+                      key={index}
+                      day={day}
+                      height={height}
+                      firstDayOfCurrentMonth={firstDayOfCurrentMonth}
+                      selectedDay={selectedDay}
+                      setSelectedDay={setSelectedDay}
+                      arrange={context.arrange.option}
+                    />
+                  );
+                })}
+              </div>
+            </Scrollable>
+          </div>
         </div>
         {/* Info */}
 

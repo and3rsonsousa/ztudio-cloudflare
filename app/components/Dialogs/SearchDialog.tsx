@@ -1,5 +1,5 @@
 import { Combobox } from "@headlessui/react";
-import { useMatches, useNavigate, useOutletContext } from "@remix-run/react";
+import { useMatches, useNavigate } from "@remix-run/react";
 import { SupabaseClient } from "@supabase/supabase-js";
 import dayjs from "dayjs";
 import { Fragment, useState } from "react";
@@ -12,7 +12,7 @@ import type {
 import { TagIcons } from "../Actions";
 import Loader from "../Loader";
 
-export default function SearchDialog() {
+export default function SearchDialog({ context }: { context: ContextType }) {
   const [searching, setSearching] = useState(false);
   const [items, setItems] = useState<{
     actions: any;
@@ -67,8 +67,6 @@ export default function SearchDialog() {
       setSearching(() => false);
     }
   };
-
-  const context: ContextType = useOutletContext();
 
   return (
     <Combobox

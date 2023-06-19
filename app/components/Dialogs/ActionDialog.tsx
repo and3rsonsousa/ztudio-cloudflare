@@ -37,16 +37,18 @@ dayjs.tz.setDefault("America/Fortaleza");
 
 export default function ActionDialog({
   action,
+  context,
 }: {
   date?: Dayjs;
   action?: ActionModel;
+  context: ContextType;
 }) {
   const matches = useMatches();
   const fetcher = useFetcher();
   const formRef = useRef<HTMLFormElement>(null);
   const [searchParams] = useSearchParams();
 
-  const context: ContextType = useOutletContext();
+  // const context: ContextType = useOutletContext();
 
   const date = context.date.day;
 

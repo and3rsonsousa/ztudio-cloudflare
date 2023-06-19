@@ -69,3 +69,21 @@ export const VIEWS: FormItemModel[] = [
     value: "year",
   },
 ];
+
+export let ARRANGE_ITEMS = [
+  {
+    label: SHORTCUTS.ARRANGE_ALL.does,
+    value: SHORTCUTS.ARRANGE_ALL.value,
+    shortcut: SHORTCUTS.ARRANGE_ALL.shortcut,
+  },
+  {
+    label: SHORTCUTS.ARRANGE_CATEGORIES.does,
+    value: SHORTCUTS.ARRANGE_CATEGORIES.value,
+    shortcut: SHORTCUTS.ARRANGE_CATEGORIES.shortcut,
+  },
+  {
+    label: SHORTCUTS.ARRANGE_ACCOUNTS.does,
+    value: SHORTCUTS.ARRANGE_ACCOUNTS.value,
+    shortcut: SHORTCUTS.ARRANGE_ACCOUNTS.shortcut,
+  },
+];
