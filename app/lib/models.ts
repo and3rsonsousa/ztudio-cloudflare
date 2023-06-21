@@ -66,6 +66,8 @@ export type CelebrationModel = {
   name: string;
   date: string;
   is_holiday: boolean;
+  created_at: string;
+  updated_at: string;
 };
 
 export type ItemModel = {

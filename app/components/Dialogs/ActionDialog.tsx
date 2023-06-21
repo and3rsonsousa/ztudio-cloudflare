@@ -2,8 +2,7 @@ import {
   Form,
   useFetcher,
   useMatches,
-  useOutletContext,
-  useSearchParams,
+  useSearchParams
 } from "@remix-run/react";
 import { useEffect, useRef, useState } from "react";
 import type {
@@ -28,6 +27,8 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
 import CheckboxField from "../Forms/CheckboxField";
+import HeaderDialog from "./HeaderDialog";
+
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -131,37 +132,8 @@ export default function ActionDialog({
   }, [action, isDirty, fetcher]);
   return (
     <>
-      <div className="mb-4 flex justify-between">
-        <div>
-          <h4 className="m-0 dark:text-gray-200">
-            {action
-              ? `Editar Ação`
-              : `Nova Ação${account ? " para ".concat(account.name) : ""}`}
-          </h4>
-          {action && (
-            <div className="mt-1 text-xs font-normal text-gray-300 dark:text-gray-700">
-              #{action.id}
-            </div>
-          )}
-        </div>
-
-        {/* Mostra há quanto tempo foi criado ou atualizado */}
-        {action ? (
-          <div className="flex items-center gap-2 text-xs text-gray-400">
-            <div>{isUpdating ? <Loader size="small" /> : null}</div>
-            <div>
-              {dayjs(action.created_at).format("YYYY-MM-dd HH:mm:ss") ===
-              dayjs(action.updated_at).format("YYYY-MM-dd HH:mm:ss")
-                ? "Criado "
-                : "Atualizado "}
-
-              {dayjs(action.updated_at).fromNow()}
-            </div>
-          </div>
-        ) : (
-          isAdding && <Loader />
-        )}
-      </div>
+      
+        <HeaderDialog {...{isAdding, account, isUpdating}} item={action} label="Ação" />
 
       {fetcher.data && fetcher.data.error ? (
         <Exclamation type="error" icon>

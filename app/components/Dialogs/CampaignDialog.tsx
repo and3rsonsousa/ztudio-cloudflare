@@ -20,6 +20,7 @@ import { default as Field } from "../Forms/InputField";
 import SelectField from "../Forms/SelectField";
 import TextareaField from "../Forms/TextareaField";
 import Loader from "../Loader";
+import HeaderDialog from "./HeaderDialog";
 
 export default function CampaignDialog({
   campaign,
@@ -68,21 +69,8 @@ export default function CampaignDialog({
 
   return (
     <>
-      <div className="mb-4 flex justify-between">
-        <div>
-          <h4 className="m-0 dark:text-gray-200">
-            {campaign
-              ? `Editar Campanha`
-              : `Nova Campanha${account ? " para ".concat(account.name) : ""}`}
-          </h4>
-          {campaign ? (
-            <div className="mt-1 text-xs font-normal text-gray-300 dark:text-gray-700">
-              #{campaign.id}
-            </div>
-          ) : null}
-        </div>
-        <div>{isAdding && <Loader />}</div>
-      </div>
+      <HeaderDialog {...{isAdding, account}} item={campaign} label="Campanha" />
+
       {fetcher.data && fetcher.data.error ? (
         <Exclamation type="error" icon>
           {fetcher.data.error.message}

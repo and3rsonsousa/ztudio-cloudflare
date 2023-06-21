@@ -44,6 +44,9 @@ body {
   h5 {
     @apply font-semibold uppercase tracking-wide;
   }
+  h6 {
+    @apply font-semibold uppercase tracking-wide text-sm;
+  }
 }
 
 @layer utilities {
