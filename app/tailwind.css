@@ -203,7 +203,7 @@ body {
   }
 
   .dropdown-content {
-    @apply shadow-color shadow-color-dark z-50 rounded-xl border border-black/10 bg-gray-700/25 py-2 backdrop-blur-xl;
+    @apply shadow-color shadow-color-dark z-50 rounded-xl border border-white/20 bg-gray-700/25 py-2 backdrop-blur-xl mx-1;
   }
 
   .dropdown-label {
