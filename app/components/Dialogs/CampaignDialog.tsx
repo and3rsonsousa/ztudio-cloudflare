@@ -19,7 +19,6 @@ import DateRangeField from "../Forms/DateRangeField";
 import { default as Field } from "../Forms/InputField";
 import SelectField from "../Forms/SelectField";
 import TextareaField from "../Forms/TextareaField";
-import Loader from "../Loader";
 import HeaderDialog from "./HeaderDialog";
 
 export default function CampaignDialog({
@@ -69,7 +68,11 @@ export default function CampaignDialog({
 
   return (
     <>
-      <HeaderDialog {...{isAdding, account}} item={campaign} label="Campanha" />
+      <HeaderDialog
+        {...{ isAdding, account }}
+        item={campaign}
+        label="Campanha"
+      />
 
       {fetcher.data && fetcher.data.error ? (
         <Exclamation type="error" icon>

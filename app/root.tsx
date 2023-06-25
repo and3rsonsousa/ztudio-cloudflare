@@ -1,3 +1,4 @@
+// import styles from "./globals.css";
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/cloudflare";
 import {
   Links,
