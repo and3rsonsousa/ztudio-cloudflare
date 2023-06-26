@@ -33,8 +33,6 @@ export const createServerClient = ({
   response: Response;
 }) => {
   return csc(
-    // "https://pivlgmzzjgsysyvmsgjy.supabase.co",
-    // "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBpdmxnbXp6amdzeXN5dm1zZ2p5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTMyNTM3NDUsImV4cCI6MTk2ODgyOTc0NX0.sSMLicGE_LCmu1YidlnHFqwNnNj4K2CCfJUiTHc3muA",
     SUPABASE_URL,
     SUPABASE_ANON_KEY,
 
